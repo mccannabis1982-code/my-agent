@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Stoic Shift Coach — 7 Hard Moments, 7 Stoic Moves</title>
+<style>
+:root{--ink:#22201b;--muted:#6b655a;--line:#ddd5c3;--accent:#8a6d3b;--bg:#faf7ef;--card:#fffdf6}
+*{box-sizing:border-box}
+body{margin:0;font-family:Georgia,'Times New Roman',serif;background:var(--bg);color:var(--ink);line-height:1.6}
+.wrap{max-width:760px;margin:0 auto;padding:24px 18px 48px}
+header{border-bottom:3px double var(--accent);padding-bottom:14px;margin-bottom:20px}
+h1{font-size:30px;margin:0 0 6px;line-height:1.2}
+h2{font-size:21px;margin:28px 0 8px}
+h3{font-size:18px;margin:0 0 6px}
+.lead{font-size:17px;color:var(--muted)}
+.note{background:#f3ead3;border:1px solid var(--line);border-radius:8px;padding:12px 16px;font-size:14px}
+.moments{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}
+.moments button{font-family:inherit;font-size:15px;text-align:left;padding:14px;border:1px solid var(--line);border-radius:10px;background:var(--card);cursor:pointer;line-height:1.4}
+.moments button:hover{border-color:var(--accent)}
+.moments button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px;margin:16px 0}
+.card h3{color:var(--accent)}
+blockquote{margin:14px 0;padding:12px 16px;border-left:4px solid var(--accent);background:#fbf6e9;font-style:italic;font-size:17px}
+.attr{font-size:13px;color:var(--muted);font-style:normal;margin-top:6px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.cols h4{margin:0 0 4px;font-size:14px;text-transform:uppercase;letter-spacing:1px;color:var(--accent)}
+.action{background:#eef3e6;border:1px solid #cfdcc0;border-radius:8px;padding:12px 16px;margin-top:14px}
+.checklist label{display:block;padding:8px 0;border-bottom:1px solid var(--line);font-size:15px}
+.checklist input{margin-right:8px}
+.small{font-size:13px;color:var(--muted)}
+.hidden{display:none}
+@media(max-width:560px){.moments,.cols{grid-template-columns:1fr}}
+@media print{
+  body{background:#fff}
+  .moments button{border:1px solid #999}
+  .moments button.active{background:#eee;color:#000}
+  .no-print{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>The Stoic Shift Coach</h1>
+<p class="lead">7 hard moments, 7 Stoic moves. Pick the moment you are in. Get the reframe, what is and is not in your control, one concrete next action, and one true line from the Stoics to hold onto.</p>
+<div class="note"><b>Plain talk:</b> this is a practice guide, not therapy, not medical advice, and not crisis support. If you are in crisis, call or text 988 in the US. Nothing here replaces a doctor, a counsellor, or a supervisor when safety is on the line.</div>
+</header>
+
+<div class="moments no-print" id="momentBtns"></div>
+
+<section class="card" id="momentCard">
+<h3 id="mTitle">Pick a hard moment above</h3>
+<p id="mIntro">Tap one of the seven moments. The Stoic move for it appears here.</p>
+<div id="mBody" class="hidden">
+<p id="mReframe"></p>
+<div class="cols">
+<div><h4>In my control</h4><p id="mIn"></p></div>
+<div><h4>Not in my control</h4><p id="mOut"></p></div>
+</div>
+<div class="action"><b>One next action:</b> <span id="mAction"></span></div>
+<blockquote><span id="mQuote"></span><div class="attr" id="mAttr"></div></blockquote>
+</div>
+</section>
+
+<section>
+<h2>Morning prep — before the day starts</h2>
+<div class="checklist card">
+<label><input type="checkbox"> Read today&rsquo;s quote and say it in my own words.</label>
+<label><input type="checkbox"> Name what is in my control today — and what is not.</label>
+<label><input type="checkbox"> Choose one virtue to practise: wisdom, courage, justice, or self-control.</label>
+<label><input type="checkbox"> Name the one hard thing I may meet, and the move I will use.</label>
+</div>
+</section>
+
+<section>
+<h2>Evening review — before sleep</h2>
+<div class="checklist card">
+<label><input type="checkbox"> What went well today?</label>
+<label><input type="checkbox"> What would I do differently tomorrow?</label>
+<label><input type="checkbox"> One thing I am grateful for.</label>
+<label><input type="checkbox"> Tomorrow&rsquo;s one thing — written down, not just thought.</label>
+</div>
+</section>
+
+<section>
+<h2>A note on the quotes</h2>
+<p class="small">Every quotation on this page is copied word for word from a named public-domain translation, with its book or letter and section, so you can check it yourself. Marcus Aurelius, <i>Meditations</i>, translated by George Long (1862) — Project Gutenberg eBook #15877. Epictetus, <i>Enchiridion</i>, translated by George Long. Seneca, <i>Moral Letters to Lucilius</i>, translated by Richard Mott Gummere, Loeb Classical Library (1917–1925). Lines that could not be traced word for word to the texts were left out — including the well-known &ldquo;You have power over your mind, not outside events,&rdquo; which is a modern summary of <i>Meditations</i> 8.47, not a sentence Marcus Aurelius wrote.</p>
+<p class="small"><b>Print version:</b> this page is print-ready. Use your browser&rsquo;s Print command (Ctrl+P or Cmd+P) to print it or save it as a PDF. The seven moments, the checklists, and the quotes all print on paper.</p>
+<p class="small">The Stoic Shift Coach — a Kingwood Digital Store guide. One-time digital product, no account, no subscription.</p>
+</section>
+</div>
+
+<script>
+var MOMENTS=[
+{title:"A bad shift",
+ reframe:"The shift is the shift. Your conduct is yours. A bad shift is a test of the work, not a verdict on you.",
+ inn:"My pace, my words, my breaks, my attitude — and doing the next task well.",
+ out:"The workload, the supervisor's mood, the equipment, the clock.",
+ action:"Pick one thing to do well in the next hour, then take your break on time.",
+ quote:"Begin the morning by saying to thyself, I shall meet with the busybody, the ungrateful, arrogant, deceitful, envious, unsocial.",
+ attr:"Marcus Aurelius, Meditations, Book 2, §1 — trans. George Long (1862)"},
+{title:"An unfair boss",
+ reframe:"Blame is their words. Your worth is your work. Being blamed unfairly hurts because you care about doing it right — keep caring, and keep the record straight.",
+ inn:"My response, my record of what happened, my next step.",
+ out:"Whether they are fair, what they say about me to others, the decision they make.",
+ action:"Write down exactly what happened — facts only, with date and time — then do the next task well.",
+ quote:"Remember that it is not he who reviles you or strikes you, who insults you, but it is your opinion about these things as being insulting.",
+ attr:"Epictetus, Enchiridion, Chapter 20 — trans. George Long"},
+{title:"Money stress",
+ reframe:"Money is a tool. The panic is the story about it. You cannot pay every bill at once, but you can face the numbers one at a time.",
+ inn:"Today's spending, one call, one application, the next dollar.",
+ out:"The balance, the bills already due, the past.",
+ action:"Write the three numbers that matter today — what is due, what is coming in, what you can pay — then act on the smallest one.",
+ quote:"It is not the man who has too little, but the man who craves more, that is poor.",
+ attr:"Seneca, Moral Letters to Lucilius, Letter 2, §6 — trans. Richard M. Gummere"},
+{title:"Waiting on an answer",
+ reframe:"Waiting is not doing nothing. It is the work of patience. The answer will come when it comes; your day is yours meanwhile.",
+ inn:"What I do while I wait, one polite follow-up, my preparation.",
+ out:"When they reply, what they decide.",
+ action:"Send one polite follow-up if a reasonable time has passed, then put the wait down and do today's task.",
+ quote:"Hold every hour in your grasp. Lay hold of to-day's task, and you will not need to depend so much upon to-morrow's.",
+ attr:"Seneca, Moral Letters to Lucilius, Letter 1, §2 — trans. Richard M. Gummere"},
+{title:"A rude stranger",
+ reframe:"Their rudeness is their character showing. Yours is your reply. You do not have to match it.",
+ inn:"My words, my temper, whether I engage at all.",
+ out:"Their manners, their mood, their opinion of me.",
+ action:"Say nothing back — or one calm sentence — and walk on.",
+ quote:"The best way of avenging thyself is not to become like [the wrong-doer].",
+ attr:"Marcus Aurelius, Meditations, Book 6, §6 — trans. George Long (1862)"},
+{title:"A mistake you can't undo",
+ reframe:"The past is fixed. Your next move is not. A mistake you cannot undo is a fact to accept and a lesson to carry — not a sentence to serve forever.",
+ inn:"What I admit, what I repair, what I learn.",
+ out:"The mistake itself, other people's reactions, the outcome already set.",
+ action:"Name the mistake plainly, fix what can still be fixed, and write the lesson down in one sentence.",
+ quote:"Seek not that the things which happen should happen as you wish; but wish the things which happen to be as they are, and you will have a tranquil flow of life.",
+ attr:"Epictetus, Enchiridion, Chapter 8 — trans. George Long"},
+{title:"Feeling stuck",
+ reframe:"Stuck is a feeling, not a fact. The whole road is too big to move at once. The next hour is not.",
+ inn:"The next hour, one small action, asking for help.",
+ out:"The whole road ahead, how fast things change.",
+ action:"Do one small thing that moves you — one application, one call, one page — then stop and rest.",
+ quote:"It is in thy power whenever thou shalt choose to retire into thyself.",
+ attr:"Marcus Aurelius, Meditations, Book 4, §3 — trans. George Long (1862)"}
+];
+var btns=document.getElementById('momentBtns');
+MOMENTS.forEach(function(m,i){
+  var b=document.createElement('button');
+  b.type='button'; b.textContent=(i+1)+'. '+m.title;
+  b.onclick=function(){
+    var all=btns.querySelectorAll('button');
+    for(var j=0;j<all.length;j++){all[j].classList.remove('active');}
+    b.classList.add('active');
+    document.getElementById('mTitle').textContent=m.title;
+    document.getElementById('mIntro').textContent='';
+    document.getElementById('mReframe').textContent=m.reframe;
+    document.getElementById('mIn').textContent=m.inn;
+    document.getElementById('mOut').textContent=m.out;
+    document.getElementById('mAction').textContent=m.action;
+    document.getElementById('mQuote').textContent='\u201C'+m.quote+'\u201D';
+    document.getElementById('mAttr').textContent=m.attr;
+    document.getElementById('mBody').classList.remove('hidden');
+  };
+  btns.appendChild(b);
+});
+</script>
+<footer>
+  <p>Contact: <a href="mailto:mccann.c808@gmail.com">mccann.c808@gmail.com</a></p>
+</footer>
+</body>
+</html>
