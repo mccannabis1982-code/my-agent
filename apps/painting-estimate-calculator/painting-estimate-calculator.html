@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--
+  Product: Painting Estimate Calculator
+  Price: $15.99
+  Description: A working in-browser painting estimate calculator with Good / Better / Best price tiers, a printable client proposal, and a paint order list.
+  Store: Kingwood Digital Store
+  Author background: Chris McCann — Remodeling Foreman, Premier LLC, HI, 2013–2018, where painting and job budgets were core duties.
+  Comparable verified on Etsy: "Painting Contractor Estimate Calculator" by TidySheetsLab, $17.50.
+  No external dependencies. Works offline in any modern browser. Print with your browser's Print command.
+-->
+<title>Painting Estimate Calculator — $15.99 — Kingwood Digital Store</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: Georgia, "Times New Roman", serif; color: #222; background: #fff; margin: 0; line-height: 1.5; }
+  .page { max-width: 820px; margin: 0 auto; padding: 28px 24px 40px; }
+  h1 { font-size: 30px; line-height: 1.2; margin: 0 0 6px; }
+  h2 { font-size: 20px; border-bottom: 2px solid #222; padding-bottom: 4px; margin: 32px 0 12px; }
+  h3 { font-size: 16px; margin: 18px 0 6px; }
+  .price { font-size: 22px; font-weight: bold; }
+  .tagline { font-size: 17px; font-style: italic; color: #444; }
+  .cover { border: 3px double #222; padding: 24px; text-align: center; margin-bottom: 8px; }
+  .cover p { margin: 6px 0; }
+  .badge { display: inline-block; border: 1px solid #222; padding: 2px 10px; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; }
+  .note { background: #f6f2e7; border-left: 4px solid #8a6d1b; padding: 12px 14px; margin: 14px 0; }
+  .warn { background: #fdf3e3; border: 1px solid #c98a1b; padding: 12px 14px; margin: 14px 0; font-weight: bold; }
+  label { display: block; font-weight: bold; margin: 10px 0 2px; font-family: Arial, Helvetica, sans-serif; font-size: 14px; }
+  input[type="number"], input[type="text"], input[type="date"], select { width: 100%; max-width: 320px; padding: 8px; font-size: 16px; border: 1px solid #888; border-radius: 4px; font-family: Arial, Helvetica, sans-serif; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0 16px; }
+  fieldset { border: 1px solid #999; padding: 14px 16px 18px; margin: 14px 0; }
+  legend { font-weight: bold; font-family: Arial, Helvetica, sans-serif; padding: 0 6px; }
+  button { font-family: Arial, Helvetica, sans-serif; font-size: 16px; padding: 10px 18px; margin: 8px 8px 8px 0; cursor: pointer; background: #222; color: #fff; border: none; border-radius: 4px; }
+  button.secondary { background: #fff; color: #222; border: 1px solid #222; }
+  .results { background: #f2f2f2; border: 1px solid #999; padding: 16px 18px; margin: 14px 0; }
+  .results p { margin: 6px 0; font-family: Arial, Helvetica, sans-serif; }
+  .results .big { font-size: 20px; font-weight: bold; }
+  table { width: 100%; border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-size: 14px; margin: 10px 0; }
+  th, td { border: 1px solid #999; padding: 8px; text-align: left; vertical-align: top; }
+  th { background: #eee; }
+  td.num, th.num { text-align: right; }
+  .proposal { border: 2px solid #222; padding: 20px; margin-top: 16px; }
+  .sig { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 28px; }
+  .sig div { border-top: 1px solid #222; padding-top: 4px; font-size: 13px; }
+  .small { font-size: 13px; color: #555; font-family: Arial, Helvetica, sans-serif; }
+  footer { border-top: 1px solid #999; margin-top: 36px; padding-top: 12px; font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #444; }
+  ul, ol { margin: 6px 0 6px 20px; }
+  li { margin: 3px 0; }
+  .check { accent-color: #222; width: 18px; height: 18px; }
+  @media (max-width: 600px) { .grid, .grid3, .sig { grid-template-columns: 1fr; } h1 { font-size: 24px; } }
+  @media print {
+    body { font-size: 12pt; }
+    .page { max-width: none; padding: 0; }
+    .no-print { display: none !important; }
+    .cover { border-width: 2px; }
+    h2 { break-after: avoid; }
+    .proposal, .results { break-inside: avoid; }
+    table, .results { break-inside: avoid; }
+    button { display: none; }
+    a { color: #222; text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- COVER PAGE -->
+  <div class="cover">
+    <div class="badge">Kingwood Digital Store &bull; Kingwood, TX</div>
+    <h1>Painting Estimate Calculator</h1>
+    <p class="price">$15.99</p>
+    <p class="tagline">Turn room measurements into paint gallons, labor hours, and a clear Good / Better / Best price — then hand the client a printed proposal.</p>
+    <p class="small">A working calculator — no app to install, no account needed. Open this file in a browser, enter the measurements, and print.</p>
+  </div>
+
+  <p><strong>Built from real work.</strong> Chris McCann — Remodeling Foreman, Premier LLC, Hawaii, 2013–2018, where painting and job budgets were core duties. Also: Nursery Manager, Mattole River LLC, CA, 2007–2013; Warehouse Associate, J and M Wholesale, Houston, 2018–2022; Stocker, Foodland Texas, Houston, 2022–present.</p>
+
+  <div class="warn">Paint prices change — verify current local paint prices at the store before quoting a job.</div>
+
+  <h2>How to use it</h2>
+  <ol>
+    <li>Measure the room in feet and enter length, width, and ceiling height below.</li>
+    <li>Enter the number of coats (2 is the usual default), and the number of doors and windows.</li>
+    <li>Check the paint and labor prices — change them to match your local store and your own labor rate before you quote.</li>
+    <li>Click <strong>Calculate estimate</strong>. Check the gallons, labor hours, and the three price tiers.</li>
+    <li>Fill in the client details in the proposal section, pick a tier, and print. The print button prints the whole file cleanly.</li>
+  </ol>
+
+  <h2>1 &mdash; Room measurements</h2>
+  <form id="calcForm" onsubmit="return false;">
+    <div class="grid">
+      <div>
+        <label for="length">Room length (feet)</label>
+        <input type="number" id="length" min="0" step="0.5" value="12" required>
+      </div>
+      <div>
+        <label for="width">Room width (feet)</label>
+        <input type="number" id="width" min="0" step="0.5" value="10" required>
+      </div>
+      <div>
+        <label for="height">Ceiling height (feet)</label>
+        <input type="number" id="height" min="0" step="0.5" value="8" required>
+      </div>
+      <div>
+        <label for="coats">Number of coats</label>
+        <input type="number" id="coats" min="1" max="4" step="1" value="2" required>
+      </div>
+      <div>
+        <label for="doors">Doors (not painted)</label>
+        <input type="number" id="doors" min="0" step="1" value="1">
+      </div>
+      <div>
+        <label for="windows">Windows (not painted)</label>
+        <input type="number" id="windows" min="0" step="1" value="1">
+      </div>
+    </div>
+    <p>
+      <label style="display:inline; font-weight:normal;"><input type="checkbox" id="ceiling" class="check"> Include the ceiling in the paint area</label><br>
+      <span class="small">Leave unchecked for walls only — the usual case when the ceiling is already white or is not part of the job.</span>
+    </p>
+
+    <fieldset>
+      <legend>Your prices — change these to match your local store</legend>
+      <div class="grid3">
+        <div>
+          <label for="paintGood">Good paint — $ / gallon</label>
+          <input type="number" id="paintGood" min="0" step="1" value="35">
+        </div>
+        <div>
+          <label for="paintBetter">Better paint — $ / gallon</label>
+          <input type="number" id="paintBetter" min="0" step="1" value="55">
+        </div>
+        <div>
+          <label for="paintBest">Best paint — $ / gallon</label>
+          <input type="number" id="paintBest" min="0" step="1" value="75">
+        </div>
+      </div>
+      <div class="grid">
+        <div>
+          <label for="laborRate">Labor rate — $ / hour</label>
+          <input type="number" id="laborRate" min="0" step="1" value="40">
+        </div>
+        <div>
+          <label for="supplies">Supplies allowance — $ (tape, covers, trays, etc.)</label>
+          <input type="number" id="supplies" min="0" step="1" value="25">
+        </div>
+      </div>
+      <p class="small">Defaults are planning figures only, not a quote for any real job. Paint prices change — verify current local paint prices at the store before quoting a job.</p>
+    </fieldset>
+
+    <p class="no-print">
+      <button type="button" onclick="calculate()">Calculate estimate</button>
+      <button type="button" class="secondary" onclick="window.print()">Print / Save as PDF</button>
+    </p>
+  </form>
+
+  <h2>2 &mdash; Results</h2>
+  <div class="results" id="results">
+    <p class="big">Enter measurements above and click “Calculate estimate.”</p>
+    <p>Wall area, paintable area, gallons needed, and labor hours will appear here.</p>
+  </div>
+
+  <h2>3 &mdash; Good / Better / Best price tiers</h2>
+  <p>Each tier uses the same labor hours and supplies allowance. Only the paint price changes — Good is a basic interior paint, Better is a mid-range paint, Best is a premium paint. Change the paint prices in Section 1 to match what your store actually charges.</p>
+  <table id="tierTable">
+    <thead>
+      <tr><th>Tier</th><th>Paint ($/gal)</th><th class="num">Paint cost</th><th class="num">Labor cost</th><th class="num">Supplies</th><th class="num">Estimated total</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Good</strong></td><td id="tGoodPaint">—</td><td class="num" id="tGoodPaintCost">—</td><td class="num" id="tGoodLabor">—</td><td class="num" id="tGoodSupplies">—</td><td class="num" id="tGoodTotal"><strong>—</strong></td></tr>
+      <tr><td><strong>Better</strong></td><td id="tBetterPaint">—</td><td class="num" id="tBetterPaintCost">—</td><td class="num" id="tBetterLabor">—</td><td class="num" id="tBetterSupplies">—</td><td class="num" id="tBetterTotal"><strong>—</strong></td></tr>
+      <tr><td><strong>Best</strong></td><td id="tBestPaint">—</td><td class="num" id="tBestPaintCost">—</td><td class="num" id="tBestLabor">—</td><td class="num" id="tBestSupplies">—</td><td class="num" id="tBestTotal"><strong>—</strong></td></tr>
+    </tbody>
+  </table>
+  <p class="small">Totals are estimates based on the assumptions below. They are not a binding quote until you confirm measurements on site and verify current paint prices.</p>
+
+  <h2>4 &mdash; Paint order list</h2>
+  <p>Take this list to the store. Quantities update when you recalculate.</p>
+  <table>
+    <thead><tr><th>Item</th><th class="num">Quantity</th><th>Notes</th></tr></thead>
+    <tbody id="orderList">
+      <tr><td>Interior paint</td><td class="num" id="oPaint">—</td><td id="oPaintNote">Calculate first.</td></tr>
+      <tr><td>Primer (if bare drywall / dark color change)</td><td class="num" id="oPrimer">—</td><td>1 gallon covers about 300 sq ft for one coat. Buy only if needed.</td></tr>
+      <tr><td>9-inch roller covers</td><td class="num" id="oRollers">—</td><td>One fresh cover per coat gives a cleaner finish.</td></tr>
+      <tr><td>Roller frame + tray + liners</td><td class="num">1 set</td><td>Reuse the frame; use a fresh liner per color.</td></tr>
+      <tr><td>Angled brush, 2&ndash;2&frac12; inch</td><td class="num">1&ndash;2</td><td>For cutting in edges, corners, and trim.</td></tr>
+      <tr><td>Painter&rsquo;s tape</td><td class="num" id="oTape">—</td><td>About 1 roll per 400 sq ft of paintable area, rounded up.</td></tr>
+      <tr><td>Drop cloths / plastic sheeting</td><td class="num">1&ndash;2</td><td>Cover floors and furniture before you open a can.</td></tr>
+      <tr><td>Stir sticks, paint-can opener, rags</td><td class="num">As needed</td><td>Usually free or a few dollars at the paint counter.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>5 &mdash; Client proposal (printable)</h2>
+  <p>Fill in the client details, choose the tier you are quoting, and print this page for the client. The figures below fill in automatically from your calculation.</p>
+  <div class="proposal">
+    <h3 style="margin-top:0; text-align:center;">Painting Proposal</h3>
+    <p style="text-align:center;" class="small">Kingwood Digital Store &bull; Prepared by Chris McCann</p>
+    <div class="grid">
+      <div>
+        <label for="clientName">Client name</label>
+        <input type="text" id="clientName" placeholder="Client name">
+      </div>
+      <div>
+        <label for="jobDate">Date</label>
+        <input type="date" id="jobDate">
+      </div>
+      <div>
+        <label for="jobAddress">Job address / room</label>
+        <input type="text" id="jobAddress" placeholder="e.g. Living room, 123 Main St">
+      </div>
+      <div>
+        <label for="proposalTier">Tier quoted</label>
+        <select id="proposalTier" onchange="updateProposal()">
+          <option value="good">Good</option>
+          <option value="better" selected>Better</option>
+          <option value="best">Best</option>
+        </select>
+      </div>
+    </div>
+    <p id="proposalSummary"><strong>Scope:</strong> Calculate an estimate first — the room size, coats, gallons, and labor hours will appear here.</p>
+    <table>
+      <thead><tr><th>Item</th><th class="num">Amount</th></tr></thead>
+      <tbody>
+        <tr><td>Paint (<span id="pTierName">Better</span> tier)</td><td class="num" id="pPaint">—</td></tr>
+        <tr><td>Labor</td><td class="num" id="pLabor">—</td></tr>
+        <tr><td>Supplies</td><td class="num" id="pSupplies">—</td></tr>
+        <tr><td><strong>Estimated total</strong></td><td class="num" id="pTotal"><strong>—</strong></td></tr>
+      </tbody>
+    </table>
+    <h3>Terms</h3>
+    <ul>
+      <li>This is an estimate based on the measurements entered above. Final price may change if on-site measurements, wall condition, or the number of coats differ.</li>
+      <li>Paint prices change — verify current local paint prices at the store before quoting a job.</li>
+      <li>Client supplies access to water and electricity. Furniture to be moved is agreed before work starts.</li>
+      <li>Proposal valid for 30 days from the date above unless paint prices change.</li>
+    </ul>
+    <div class="sig">
+      <div>Client signature &amp; date</div>
+      <div>Estimator signature &amp; date — Chris McCann</div>
+    </div>
+  </div>
+
+  <h2>Assumptions — read before you quote</h2>
+  <ul>
+    <li><strong>Coverage:</strong> about 350 sq ft per gallon per coat, the standard figure printed on most interior paint cans. Rough, textured, or porous walls use more paint.</li>
+    <li><strong>Coats:</strong> 2 coats is the default. One coat may be enough over the same color in good condition; a dark-to-light change may need a primer coat plus 2 coats.</li>
+    <li><strong>Wall area:</strong> 2 &times; (length + width) &times; height. Ceiling area (length &times; width) is added only if you check “Include the ceiling.”</li>
+    <li><strong>Doors and windows:</strong> each door deducts 21 sq ft and each window deducts 15 sq ft from the paintable area.</li>
+    <li><strong>Gallons to buy:</strong> exact gallons are rounded <em>up</em> to whole gallons, so you do not run short mid-wall. Buy one extra gallon on a large or dark-color job if you want touch-up paint left over.</li>
+    <li><strong>Labor:</strong> about 150 sq ft per hour per coat for rolling walls (including cutting in), plus 1 hour for setup and cleanup per room. This is a planning figure — your own speed, wall condition, trim work, and prep will change it.</li>
+    <li><strong>Paint prices:</strong> the default $35 / $55 / $75 per gallon and the $40/hour labor rate are starting figures only. Paint prices change — verify current local paint prices at the store before quoting a job.</li>
+    <li><strong>Not included:</strong> drywall repair, wallpaper removal, trim/door painting as a separate line, or moving heavy furniture, unless you add them to the proposal yourself.</li>
+  </ul>
+  <div class="note"><strong>A note on accuracy:</strong> measure twice. A room that is 12 &times; 10 ft with 8-ft ceilings is about 352 sq ft of wall — one gallon per coat, two gallons for two coats, before doors and windows are deducted. If your numbers look far from that, re-check the measurements before you quote.</div>
+
+  <p class="small">Comparable: “Painting Contractor Estimate Calculator” by TidySheetsLab on Etsy, $17.50 — used as a pricing reference for this $15.99 calculator. This file is a standalone calculator; it does not copy that listing.</p>
+
+  <footer>
+    <p><strong>Kingwood Digital Store</strong></p>
+    <p>Personal use only. Instant download; no physical item ships; digital downloads are not returnable.</p>
+    <p>Painting Estimate Calculator — $15.99. Built by Chris McCann, Kingwood, TX. Estimates only — verify measurements on site and verify current local paint prices at the store before quoting a job. No income or job outcome is guaranteed by using this calculator.</p>
+    <p>Contact: <a href="mailto:mccann.c808@gmail.com">mccann.c808@gmail.com</a></p>
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var last = null;
+  function num(id, fallback) {
+    var v = parseFloat(document.getElementById(id).value);
+    return isFinite(v) ? v : fallback;
+  }
+  function money(n) {
+    return "$" + n.toFixed(2);
+  }
+  window.calculate = function () {
+    var L = num("length", 0), W = num("width", 0), H = num("height", 0);
+    var coats = Math.max(1, Math.round(num("coats", 2)));
+    var doors = Math.max(0, Math.round(num("doors", 0)));
+    var windows = Math.max(0, Math.round(num("windows", 0)));
+    var includeCeiling = document.getElementById("ceiling").checked;
+    var paintPrices = { good: num("paintGood", 35), better: num("paintBetter", 55), best: num("paintBest", 75) };
+    var laborRate = num("laborRate", 40);
+    var supplies = num("supplies", 25);
+
+    var wallArea = 2 * (L + W) * H;
+    var ceilingArea = includeCeiling ? L * W : 0;
+    var gross = wallArea + ceilingArea;
+    var deduction = doors * 21 + windows * 15;
+    var paintable = Math.max(0, gross - deduction);
+    var totalSqFt = paintable * coats;
+    var gallonsExact = totalSqFt / 350;
+    var gallonsBuy = paintable > 0 ? Math.max(1, Math.ceil(gallonsExact)) : 0;
+    var laborHours = paintable > 0 ? (paintable * coats / 150) + 1 : 0;
+    laborHours = Math.round(laborHours * 10) / 10;
+    var laborCost = laborHours * laborRate;
+
+    last = { L: L, W: W, H: H, coats: coats, doors: doors, windows: windows,
+      includeCeiling: includeCeiling, wallArea: wallArea, ceilingArea: ceilingArea,
+      paintable: paintable, totalSqFt: totalSqFt, gallonsExact: gallonsExact,
+      gallonsBuy: gallonsBuy, laborHours: laborHours, laborCost: laborCost,
+      laborRate: laborRate, supplies: supplies, paintPrices: paintPrices };
+
+    document.getElementById("results").innerHTML =
+      "<p class=\"big\">Room: " + L + " ft &times; " + W + " ft, " + H + "-ft ceilings &mdash; " + coats + (coats === 1 ? " coat" : " coats") + (includeCeiling ? ", ceiling included" : ", walls only") + "</p>" +
+      "<p><strong>Wall area:</strong> " + wallArea.toFixed(0) + " sq ft" + (includeCeiling ? " &nbsp;|&nbsp; <strong>Ceiling:</strong> " + ceilingArea.toFixed(0) + " sq ft" : "") + " &nbsp;|&nbsp; <strong>Less doors/windows:</strong> " + deduction.toFixed(0) + " sq ft</p>" +
+      "<p><strong>Paintable area:</strong> " + paintable.toFixed(0) + " sq ft &nbsp;|&nbsp; <strong>Total to cover (" + coats + " coats):</strong> " + totalSqFt.toFixed(0) + " sq ft</p>" +
+      "<p><strong>Paint needed:</strong> " + gallonsExact.toFixed(2) + " gallons exact &mdash; <strong>buy " + gallonsBuy + " gallon" + (gallonsBuy === 1 ? "" : "s") + "</strong> (rounded up)</p>" +
+      "<p><strong>Estimated labor:</strong> " + laborHours.toFixed(1) + " hours at " + money(laborRate) + "/hour = " + money(laborCost) + "</p>" +
+      "<p class=\"small\">Coverage assumed: 350 sq ft per gallon per coat. Labor assumed: 150 sq ft per hour per coat, plus 1 hour setup/cleanup. See Assumptions below.</p>";
+
+    var tiers = ["good", "better", "best"];
+    var caps = { good: "Good", better: "Better", best: "Best" };
+    tiers.forEach(function (t) {
+      var cap = t.charAt(0).toUpperCase() + t.slice(1);
+      var paintCost = gallonsBuy * paintPrices[t];
+      var total = paintCost + laborCost + supplies;
+      document.getElementById("t" + cap + "Paint").textContent = money(paintPrices[t]);
+      document.getElementById("t" + cap + "PaintCost").textContent = money(paintCost);
+      document.getElementById("t" + cap + "Labor").textContent = money(laborCost);
+      document.getElementById("t" + cap + "Supplies").textContent = money(supplies);
+      document.getElementById("t" + cap + "Total").innerHTML = "<strong>" + money(total) + "</strong>";
+    });
+
+    document.getElementById("oPaint").textContent = gallonsBuy + (gallonsBuy === 1 ? " gallon" : " gallons");
+    document.getElementById("oPaintNote").textContent = gallonsExact.toFixed(2) + " gallons exact for " + totalSqFt.toFixed(0) + " sq ft at 350 sq ft/gallon — buy " + gallonsBuy + " whole gallon(s).";
+    document.getElementById("oPrimer").textContent = paintable > 0 ? Math.max(1, Math.ceil(paintable / 300)) + " gallon(s)" : "—";
+    document.getElementById("oRollers").textContent = coats + " (" + coats + " coat" + (coats === 1 ? "" : "s") + ")";
+    document.getElementById("oTape").textContent = paintable > 0 ? Math.max(1, Math.ceil(paintable / 400)) + " roll(s)" : "—";
+
+    updateProposal();
+  };
+  window.updateProposal = function () {
+    if (!last) return;
+    var tier = document.getElementById("proposalTier").value;
+    var cap = tier.charAt(0).toUpperCase() + tier.slice(1);
+    var paintCost = last.gallonsBuy * last.paintPrices[tier];
+    var total = paintCost + last.laborCost + last.supplies;
+    document.getElementById("pTierName").textContent = cap;
+    document.getElementById("pPaint").textContent = money(paintCost);
+    document.getElementById("pLabor").textContent = money(last.laborCost);
+    document.getElementById("pSupplies").textContent = money(last.supplies);
+    document.getElementById("pTotal").innerHTML = "<strong>" + money(total) + "</strong>";
+    document.getElementById("proposalSummary").innerHTML =
+      "<strong>Scope:</strong> Paint " + (last.includeCeiling ? "walls and ceiling" : "walls") + " of a " +
+      last.L + " ft &times; " + last.W + " ft room with " + last.H + "-ft ceilings (" +
+      last.paintable.toFixed(0) + " sq ft paintable), " + last.coats + (last.coats === 1 ? " coat" : " coats") +
+      ". Paint: " + last.gallonsBuy + " gallon(s) (" + cap + " tier). " +
+      "Estimated labor: " + last.laborHours.toFixed(1) + " hours. " +
+      "Estimated total (" + cap + "): <strong>" + money(total) + "</strong>.";
+  };
+  // Set today's date in the proposal date field, if empty.
+  var d = document.getElementById("jobDate");
+  if (d && !d.value) {
+    var now = new Date();
+    var mm = String(now.getMonth() + 1).padStart(2, "0");
+    var dd = String(now.getDate()).padStart(2, "0");
+    d.value = now.getFullYear() + "-" + mm + "-" + dd;
+  }
+})();
+</script>
+</body>
+</html>
