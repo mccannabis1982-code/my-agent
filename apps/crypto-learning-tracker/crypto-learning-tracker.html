@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crypto Learning Tracker</title>
+<style>
+  :root { --bg:#0f172a; --card:#1e293b; --text:#e2e8f0; --muted:#94a3b8; --accent:#38bdf8; --green:#4ade80; --red:#f87171; --amber:#fbbf24; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; padding:16px; max-width:760px; margin:0 auto; }
+  h1 { font-size:1.6rem; margin-bottom:4px; }
+  h2 { font-size:1.25rem; margin:24px 0 10px; border-bottom:2px solid var(--accent); padding-bottom:4px; }
+  h3 { font-size:1.05rem; margin:14px 0 6px; color:var(--accent); }
+  p, li { font-size:0.98rem; }
+  .subtitle { color:var(--muted); margin-bottom:16px; }
+  .card { background:var(--card); border-radius:12px; padding:16px; margin-bottom:16px; }
+  .warn { background:#451a03; border:1px solid var(--amber); border-radius:12px; padding:16px; margin-bottom:16px; }
+  .warn strong { color:var(--amber); }
+  .danger { background:#450a0a; border:1px solid var(--red); border-radius:12px; padding:16px; margin-bottom:16px; }
+  .danger strong { color:var(--red); }
+  .ok { background:#052e16; border:1px solid var(--green); border-radius:12px; padding:16px; margin-bottom:16px; }
+  .ok strong { color:var(--green); }
+  ul { padding-left:20px; }
+  li { margin-bottom:6px; }
+  .checklist label { display:flex; gap:10px; align-items:flex-start; padding:10px 0; border-bottom:1px solid #334155; cursor:pointer; }
+  .checklist label:last-child { border-bottom:none; }
+  .checklist input { width:20px; height:20px; margin-top:2px; flex-shrink:0; accent-color:var(--green); }
+  .checklist .done { text-decoration:line-through; color:var(--muted); }
+  .progress { font-weight:700; color:var(--green); }
+  .bar { height:12px; background:#334155; border-radius:6px; overflow:hidden; margin:8px 0; }
+  .bar > div { height:100%; background:var(--green); width:0%; transition:width .3s; }
+  table { width:100%; border-collapse:collapse; font-size:0.92rem; }
+  th, td { text-align:left; padding:8px 6px; border-bottom:1px solid #334155; }
+  th { color:var(--muted); }
+  form { display:grid; gap:10px; margin-top:12px; }
+  input, select, button { font:inherit; padding:10px; border-radius:8px; border:1px solid #475569; background:#0f172a; color:var(--text); }
+  button { background:var(--accent); color:#082f49; font-weight:700; border:none; cursor:pointer; }
+  button:hover { opacity:.9; }
+  .del { background:none; border:none; color:var(--red); padding:4px 8px; cursor:pointer; font-size:1rem; }
+  .total { font-size:1.3rem; font-weight:700; margin-top:10px; }
+  .total span { color:var(--green); }
+  .small { font-size:0.85rem; color:var(--muted); }
+  footer { margin-top:28px; font-size:0.85rem; color:var(--muted); border-top:1px solid #334155; padding-top:12px; }
+</style>
+</head>
+<body>
+
+<h1>🪙 Crypto Learning Tracker</h1>
+<p class="subtitle">Learn how crypto actually works — safely, slowly, and without spending a dollar. Track what you learn and what you earn, if anything.</p>
+
+<div class="warn">
+  <strong>⚠️ Realistic expectations first.</strong>
+  Realistic earnings here are small: roughly <strong>$35–$60 total over the next few months</strong> (mostly from one program, Coinbase Wallet Quests), plus <strong>$1–$5/month passive from Brave Rewards</strong>. None of it is income you can count on. Most of this is learning, not earning.
+</div>
+
+<div class="danger">
+  <strong>🛑 Cashing out is blocked for now.</strong>
+  Turning crypto into dollars requires a KYC exchange account (government ID + SSN). That is <strong>off-limits while an FTC identity-theft case is open</strong>. Do not upload ID, SSN, or a selfie to any crypto site or app to earn. Learn and collect for now; cashing out waits until the case is closed and it's safe.
+</div>
+
+<h2>📚 Lessons — Plain Language</h2>
+
+<div class="card">
+  <h3>What is a wallet?</h3>
+  <p>A crypto wallet is an app (or device) that holds the keys to your crypto. It doesn't hold the coins themselves — those live on the blockchain. The wallet holds your <em>private key</em>, which is what lets you spend or move them. Coinbase Wallet is a <strong>self-custodial</strong> wallet: you hold the keys, not a company. That means no company can freeze it — but also no company can recover it if you lose it.</p>
+
+  <h3>What is a seed phrase?</h3>
+  <p>A seed phrase is a list of 12 or 24 ordinary words (like "apple river mountain…") that is the master backup of your wallet. Anyone who has those words can take everything in the wallet. <strong>Write it on paper and store the paper somewhere safe. Never type it into a website, never send it in a message, never screenshot it, never share it with anyone — including anyone claiming to be "support."</strong> A real support agent will never ask for it.</p>
+
+  <h3>What is gas?</h3>
+  <p>Gas is the small fee you pay to make a transaction on a blockchain. On Base (the network Coinbase Wallet Quests use), gas is usually just a few cents, paid in Base ETH. Some quests may need a few cents of Base ETH to complete. If a quest asks you to pay more than a few cents, stop and check whether it's legitimate.</p>
+
+  <h3>What is KYC?</h3>
+  <p>KYC means "Know Your Customer" — a company verifying who you are, usually with a government ID and your Social Security number. Centralized exchanges (like Coinbase.com, Kraken, or Binance.US) require KYC before you can cash out to dollars. Self-custodial wallets like Coinbase Wallet do <strong>not</strong> require KYC to use. That's why quests through the wallet are an option while an identity-theft case is open — but cashing out still isn't, until the case is resolved.</p>
+</div>
+
+<h2>✅ Quest Checklist</h2>
+<div class="card">
+  <p>Check things off as you do them. Your progress is saved on this device only.</p>
+  <div class="bar"><div id="progressBar"></div></div>
+  <p class="progress" id="progressText">0 of 0 done</p>
+
+  <h3>Coinbase Wallet Quests</h3>
+  <div class="checklist" id="questsList">
+    <label><input type="checkbox" data-id="q1"><span>Install Coinbase Wallet on your phone (free, from the official app store only)</span></label>
+    <label><input type="checkbox" data-id="q2"><span>Create a new wallet — write the seed phrase on PAPER, store it safely, never type or share it</span></label>
+    <label><input type="checkbox" data-id="q3"><span>Open the Quests tab inside Coinbase Wallet and read what each quest asks for</span></label>
+    <label><input type="checkbox" data-id="q4"><span>Complete your first quest (expect a few cents of Base ETH gas — stop if it asks for more)</span></label>
+    <label><input type="checkbox" data-id="q5"><span>Record any reward you receive in the log below (date, program, amount)</span></label>
+  </div>
+
+  <h3>Brave Rewards Setup</h3>
+  <div class="checklist" id="braveList">
+    <label><input type="checkbox" data-id="b1"><span>Install Brave browser on your phone (free)</span></label>
+    <label><input type="checkbox" data-id="b2"><span>Turn on Brave Rewards in Settings and choose self-custody Solana payout</span></label>
+    <label><input type="checkbox" data-id="b3"><span>Use Brave as your everyday browser for a month — expect roughly $1–$5/month, not more</span></label>
+  </div>
+
+  <h3>Testnet / Airdrop Safety Checklist</h3>
+  <div class="checklist" id="testnetList">
+    <label><input type="checkbox" data-id="t1"><span>Understand: testnet and airdrop farming is speculative — most attempts pay nothing, and scam risk is HIGH</span></label>
+    <label><input type="checkbox" data-id="t2"><span>Never connect your main wallet to an unfamiliar site — use a separate, empty test wallet if you try anything</span></label>
+    <label><input type="checkbox" data-id="t3"><span>Never pay to join an airdrop or "claim" a reward — real airdrops don't charge a fee to claim</span></label>
+    <label><input type="checkbox" data-id="t4"><span>Never sign a transaction you don't understand — if a site asks for unlimited spending approval, close it</span></label>
+  </div>
+</div>
+
+<h2>🚩 Scam Red Flags</h2>
+<div class="card">
+  <ul>
+    <li><strong>Pay to earn:</strong> any program that asks you to pay money, buy tokens, or send crypto first in order to "unlock" earnings. Real learning rewards don't work that way.</li>
+    <li><strong>Share your seed phrase:</strong> anyone — a website, a DM, a "support agent," a video — asking for your seed phrase or private key. This is always a scam. Support never asks for it.</li>
+    <li><strong>Guaranteed returns:</strong> promises like "double your money," "guaranteed 20% a month," or "risk-free profit." There is no guaranteed return in crypto. Anyone promising one is lying.</li>
+    <li><strong>DM "support" asking for wallet access:</strong> strangers messaging you on Telegram, Discord, X, or WhatsApp offering help, then asking you to connect your wallet, share your screen, or visit a link. Real support doesn't DM you first.</li>
+    <li><strong>Impersonation:</strong> accounts or sites pretending to be Coinbase, Brave, or a famous person, often with a slightly misspelled name or web address. Check the exact spelling before you trust anything.</li>
+    <li><strong>Too good to be true:</strong> free crypto giveaways, "send 0.1 ETH and get 0.2 back," celebrity endorsements of a coin. All scams.</li>
+  </ul>
+</div>
+
+<h2>💰 What to Skip</h2>
+<div class="card">
+  <ul>
+    <li><strong>Pi Network</strong> — needs KYC to cash out. Not recommended while the identity-theft case is open.</li>
+    <li><strong>Mining on a phone or Mac</strong> — not worth doing. The earnings are tiny and it wears out the device.</li>
+    <li><strong>Faucets</strong> — they pay pennies, literally. Your time is worth more.</li>
+    <li><strong>Anything that asks for ID, SSN, or a selfie to earn</strong> — off-limits until the FTC case is closed.</li>
+  </ul>
+</div>
+
+<h2>🧮 Calculators</h2>
+
+<div class="card">
+  <h3>Dollar-Cost Averaging (DCA) Calculator</h3>
+  <p>See what happens if you buy the same dollar amount on a regular schedule. This uses one average price for the whole run, so the average cost shown equals that price — in real life the price moves on every buy, which is the whole point of DCA.</p>
+  <p class="small">Educational only — not financial advice. This is a math example, not a recommendation to buy anything.</p>
+  <form id="dcaForm">
+    <input type="number" id="dcaAmount" step="0.01" min="0" placeholder="Amount per buy in USD (e.g. 10.00)" required>
+    <select id="dcaFreq">
+      <option value="daily">Daily</option>
+      <option value="weekly" selected>Weekly</option>
+      <option value="every 2 weeks">Every 2 weeks</option>
+      <option value="monthly">Monthly</option>
+    </select>
+    <input type="number" id="dcaBuys" step="1" min="1" placeholder="Number of buys (e.g. 12)" required>
+    <input type="number" id="dcaPrice" step="0.01" min="0" placeholder="Average price per coin in USD (e.g. 100.00)" required>
+    <button type="submit">Calculate DCA</button>
+  </form>
+  <p class="total" id="dcaResult"></p>
+</div>
+
+<div class="card">
+  <h3>Profit / Loss Calculator</h3>
+  <p>Work out the gain or loss on a buy and sell. Fees and taxes are not included.</p>
+  <p class="small">Educational only — not financial advice. Past price moves say nothing about future ones.</p>
+  <form id="plForm">
+    <input type="number" id="plBuy" step="0.01" min="0" placeholder="Buy price per coin in USD (e.g. 100.00)" required>
+    <input type="number" id="plSell" step="0.01" min="0" placeholder="Sell price per coin in USD (e.g. 120.00)" required>
+    <input type="number" id="plAmount" step="0.000001" min="0" placeholder="Amount of coins (e.g. 0.5)" required>
+    <button type="submit">Calculate profit / loss</button>
+  </form>
+  <p class="total" id="plResult"></p>
+</div>
+
+<h2>📓 Earnings Log</h2>
+<div class="card">
+  <p>Record what you actually receive — <strong>only what you earned yourself</strong>. This app does not claim any earnings for you. Amounts are in US dollars, your own estimate of the value when you received it.</p>
+  <form id="logForm">
+    <input type="date" id="logDate" required>
+    <select id="logProgram" required>
+      <option value="">Choose a program…</option>
+      <option>Coinbase Wallet Quests</option>
+      <option>Brave Rewards</option>
+      <option>Testnet / Airdrop</option>
+      <option>Other</option>
+    </select>
+    <input type="number" id="logAmount" step="0.01" min="0" placeholder="Amount in USD (e.g. 2.50)" required>
+    <button type="submit">Add entry</button>
+  </form>
+  <table id="logTable" style="margin-top:14px;">
+    <thead><tr><th>Date</th><th>Program</th><th>Amount</th><th></th></tr></thead>
+    <tbody id="logBody"></tbody>
+  </table>
+  <p class="total">Running total: <span id="totalAmount">$0.00</span></p>
+  <p class="small">Tax note: in the US, crypto rewards are generally ordinary income at their fair market value when you receive them. Keep this log — it helps at tax time. This is general information, not tax advice.</p>
+</div>
+
+<div class="ok">
+  <strong>✅ The honest summary.</strong> This is a learning project. Over the next few months, a realistic outcome is $35–$60 total, mostly from Coinbase Wallet Quests, plus $1–$5/month from Brave Rewards. You can't cash out to dollars until the identity-theft case is closed and you can safely open a KYC exchange account. Learn the skills now; the money part waits.
+</div>
+
+<footer>
+  <strong>Disclaimer:</strong> This app is educational only. It is not financial advice, investment advice, or tax advice. There are no guaranteed returns. Crypto values can go up or down, and most "earn crypto" schemes lose money or are scams. Never invest money you can't afford to lose, never pay to earn, and never share your seed phrase. Consult a qualified professional for financial or tax decisions.
+  <br><br>
+  Works offline. Your checklist and log are stored only in this browser on this device (localStorage). Nothing is sent anywhere. No account, no login, no tracking.
+  <p>Contact: <a href="mailto:mccann.c808@gmail.com">mccann.c808@gmail.com</a></p>
+</footer>
+
+<script>
+(function () {
+  // --- Checklist ---
+  var boxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+  var bar = document.getElementById('progressBar');
+  var text = document.getElementById('progressText');
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem('cryptoTrackerChecks') || '{}'); } catch (e) { saved = {}; }
+
+  function updateProgress() {
+    var done = 0;
+    boxes.forEach(function (b) {
+      var span = b.parentElement.querySelector('span');
+      if (b.checked) { done++; if (span) span.classList.add('done'); }
+      else if (span) span.classList.remove('done');
+    });
+    var total = boxes.length;
+    text.textContent = done + ' of ' + total + ' done';
+    bar.style.width = total ? Math.round(done / total * 100) + '%' : '0%';
+    var state = {};
+    boxes.forEach(function (b) { state[b.dataset.id] = b.checked; });
+    try { localStorage.setItem('cryptoTrackerChecks', JSON.stringify(state)); } catch (e) {}
+  }
+
+  boxes.forEach(function (b) {
+    if (saved[b.dataset.id]) b.checked = true;
+    b.addEventListener('change', updateProgress);
+  });
+  updateProgress();
+
+  // --- Earnings log ---
+  var form = document.getElementById('logForm');
+  var dateInput = document.getElementById('logDate');
+  var programInput = document.getElementById('logProgram');
+  var amountInput = document.getElementById('logAmount');
+  var body = document.getElementById('logBody');
+  var totalEl = document.getElementById('totalAmount');
+  dateInput.valueAsDate = new Date();
+
+  var entries = [];
+  try { entries = JSON.parse(localStorage.getItem('cryptoTrackerLog') || '[]'); } catch (e) { entries = []; }
+
+  function saveLog() {
+    try { localStorage.setItem('cryptoTrackerLog', JSON.stringify(entries)); } catch (e) {}
+  }
+  function money(n) { return '$' + Number(n).toFixed(2); }
+  function renderLog() {
+    body.innerHTML = '';
+    var total = 0;
+    entries.forEach(function (e, i) {
+      total += Number(e.amount) || 0;
+      var tr = document.createElement('tr');
+      var tdD = document.createElement('td'); tdD.textContent = e.date;
+      var tdP = document.createElement('td'); tdP.textContent = e.program;
+      var tdA = document.createElement('td'); tdA.textContent = money(e.amount);
+      var tdX = document.createElement('td');
+      var btn = document.createElement('button');
+      btn.className = 'del'; btn.type = 'button'; btn.textContent = '✕'; btn.title = 'Delete entry';
+      btn.addEventListener('click', function () { entries.splice(i, 1); saveLog(); renderLog(); });
+      tdX.appendChild(btn);
+      tr.appendChild(tdD); tr.appendChild(tdP); tr.appendChild(tdA); tr.appendChild(tdX);
+      body.appendChild(tr);
+    });
+    totalEl.textContent = money(total);
+    if (!entries.length) {
+      var tr = document.createElement('tr');
+      var td = document.createElement('td');
+      td.colSpan = 4; td.textContent = 'No entries yet — add one when you actually receive a reward.';
+      td.style.color = '#94a3b8';
+      tr.appendChild(td); body.appendChild(tr);
+    }
+  }
+
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var amt = parseFloat(amountInput.value);
+    if (!dateInput.value || !programInput.value || isNaN(amt) || amt < 0) return;
+    entries.push({ date: dateInput.value, program: programInput.value, amount: amt });
+    entries.sort(function (a, b) { return a.date < b.date ? -1 : 1; });
+    saveLog(); renderLog();
+    amountInput.value = '';
+    programInput.selectedIndex = 0;
+  });
+  // --- DCA calculator ---
+  var dcaForm = document.getElementById('dcaForm');
+  var dcaResult = document.getElementById('dcaResult');
+  dcaForm.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var perBuy = parseFloat(document.getElementById('dcaAmount').value);
+    var freq = document.getElementById('dcaFreq').value;
+    var buys = parseInt(document.getElementById('dcaBuys').value, 10);
+    var avgPrice = parseFloat(document.getElementById('dcaPrice').value);
+    if (isNaN(perBuy) || isNaN(buys) || isNaN(avgPrice) || perBuy <= 0 || buys <= 0 || avgPrice <= 0) {
+      dcaResult.textContent = 'Enter positive numbers in all three fields.';
+      return;
+    }
+    var total = perBuy * buys;
+    var coins = total / avgPrice;
+    dcaResult.innerHTML = 'Total invested (' + buys + ' ' + freq + ' buys): <strong>' + money(total) + '</strong><br>Coins bought: <strong>' + coins.toFixed(6) + '</strong><br>Average cost per coin: <strong>' + money(avgPrice) + '</strong>';
+  });
+
+  // --- Profit / loss calculator ---
+  var plForm = document.getElementById('plForm');
+  var plResult = document.getElementById('plResult');
+  plForm.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var buy = parseFloat(document.getElementById('plBuy').value);
+    var sell = parseFloat(document.getElementById('plSell').value);
+    var amt = parseFloat(document.getElementById('plAmount').value);
+    if (isNaN(buy) || isNaN(sell) || isNaN(amt) || buy <= 0 || sell < 0 || amt <= 0) {
+      plResult.textContent = 'Enter valid numbers — buy price and amount must be above zero.';
+      return;
+    }
+    var gain = (sell - buy) * amt;
+    var pct = (sell - buy) / buy * 100;
+    var label = gain >= 0 ? 'Gain' : 'Loss';
+    var color = gain >= 0 ? '#4ade80' : '#f87171';
+    plResult.innerHTML = label + ': <strong style="color:' + color + '">' + money(Math.abs(gain)) + ' (' + pct.toFixed(2) + '%)</strong>';
+  });
+
+  renderLog();
+})();
+</script>
+</body>
+</html>
