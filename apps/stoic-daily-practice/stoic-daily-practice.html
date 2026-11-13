@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stoic Daily Practice — A Daily Stoicism Companion</title>
+<style>
+  :root{
+    --ink:#2b2620; --muted:#6b6257; --paper:#faf7f1; --card:#ffffff;
+    --line:#e3dccf; --accent:#8a6d3b; --accent-dark:#6e5527; --sage:#5c6b52;
+    --soft:#f1ece2; --danger:#9a4a3a; --ok:#4c6b43;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Georgia,'Times New Roman',serif;background:var(--paper);color:var(--ink);line-height:1.6}
+  header{background:#2b2620;color:#f5f1e8;padding:28px 20px 22px;text-align:center}
+  header h1{margin:0;font-size:clamp(26px,4vw,38px);letter-spacing:.5px}
+  header p{margin:8px auto 0;max-width:640px;color:#d8cfbc;font-size:16px}
+  nav{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--line);
+      display:flex;flex-wrap:wrap;justify-content:center;gap:2px;padding:6px}
+  nav button{font-family:inherit;font-size:15px;background:none;border:none;padding:9px 14px;
+      cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;border-radius:6px 6px 0 0}
+  nav button:hover{color:var(--ink);background:var(--soft)}
+  nav button.active{color:var(--accent-dark);border-bottom-color:var(--accent);font-weight:bold}
+  main{max-width:760px;margin:0 auto;padding:24px 18px 60px}
+  section.page{display:none}
+  section.page.active{display:block;animation:fade .25s ease}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  h2{font-size:24px;margin:6px 0 4px}
+  h3{font-size:18px;margin:22px 0 6px;color:var(--accent-dark)}
+  p.lead{color:var(--muted);margin-top:0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin:16px 0}
+  .quote-card{background:#fffdf6;border:1px solid var(--line);border-left:5px solid var(--accent);
+      border-radius:10px;padding:22px;margin:18px 0}
+  .quote-card blockquote{margin:0;font-size:21px;line-height:1.55;font-style:italic}
+  .quote-card .attr{margin-top:12px;color:var(--muted);font-size:14px;font-style:normal}
+  .quote-card .attr b{color:var(--ink)}
+  .date-line{color:var(--muted);font-size:14px;text-transform:uppercase;letter-spacing:1px}
+  .btn{display:inline-block;font-family:inherit;font-size:15px;background:var(--accent);color:#fff;
+      border:none;border-radius:8px;padding:10px 18px;cursor:pointer;margin:6px 6px 0 0}
+  .btn:hover{background:var(--accent-dark)}
+  .btn.ghost{background:#fff;color:var(--accent-dark);border:1px solid var(--accent)}
+  .btn.ghost:hover{background:var(--soft)}
+  .btn.small{padding:7px 12px;font-size:14px}
+  label{display:block;font-weight:bold;margin:14px 0 4px;font-size:15px}
+  label span{font-weight:normal;color:var(--muted)}
+  textarea,input[type=text],select{width:100%;font-family:inherit;font-size:16px;padding:10px 12px;
+      border:1px solid #cfc6b4;border-radius:8px;background:#fffdf8;color:var(--ink)}
+  textarea{min-height:90px;resize:vertical}
+  textarea:focus,input:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px}
+  .saved{color:var(--ok);font-size:14px;margin-top:8px;min-height:20px}
+  .virtues{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:10px 0}
+  .virtue{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fff;cursor:pointer}
+  .virtue.sel{border-color:var(--accent);background:#fbf6ea;box-shadow:0 0 0 1px var(--accent)}
+  .virtue b{display:block;font-size:15px}
+  .virtue span{font-size:13px;color:var(--muted)}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:16px 0}
+  .stat{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px;text-align:center}
+  .stat .num{font-size:32px;font-weight:bold;color:var(--accent-dark);line-height:1.1}
+  .stat .lbl{font-size:13px;color:var(--muted);margin-top:4px}
+  .pill{display:inline-block;font-size:12px;padding:2px 9px;border-radius:20px;margin-left:6px;vertical-align:middle}
+  .pill.in{background:#e6efe2;color:#3d5a34}
+  .pill.out{background:#f3e6e1;color:#7a3b2e}
+  ul.clean{list-style:none;padding:0}
+  ul.clean li{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:8px 0;
+      display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+  ul.clean li .x{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:0 2px}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:560px){.two-col{grid-template-columns:1fr}}
+  .callout{background:var(--soft);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:15px}
+  .quote-list blockquote{margin:0;font-style:italic;font-size:16px}
+  .quote-list .item{border-bottom:1px solid var(--line);padding:14px 0}
+  .quote-list .item .attr{color:var(--muted);font-size:13px;margin-top:4px}
+  .filter-row{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+  .filter-row button{font-family:inherit;font-size:14px;padding:7px 13px;border-radius:20px;
+      border:1px solid var(--accent);background:#fff;color:var(--accent-dark);cursor:pointer}
+  .filter-row button.active{background:var(--accent);color:#fff}
+  footer{border-top:1px solid var(--line);padding:22px 18px;text-align:center;color:var(--muted);font-size:13px;background:#fff}
+  footer p{margin:4px auto;max-width:640px}
+  .checklist label{font-weight:normal;display:flex;gap:8px;align-items:flex-start;margin:8px 0}
+  .checklist input{width:18px;height:18px;margin-top:3px;accent-color:var(--accent)}
+  .progress-bar{height:10px;background:#ece5d6;border-radius:6px;overflow:hidden;margin:8px 0}
+  .progress-bar div{height:100%;background:var(--sage)}
+  small.note{color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Stoic Daily Practice</h1>
+  <p>A quiet daily companion for living well — one true quote, one morning intention, one honest evening review.</p>
+</header>
+<nav id="nav">
+  <button data-page="today" class="active">Today</button>
+  <button data-page="morning">Morning</button>
+  <button data-page="evening">Evening</button>
+  <button data-page="control">Dichotomy of Control</button>
+  <button data-page="weekly">Weekly Review</button>
+  <button data-page="quotes">All Quotes</button>
+  <button data-page="about">About Stoicism</button>
+</nav>
+<main>
+
+<!-- ============ TODAY ============ -->
+<section class="page active" id="page-today">
+  <p class="date-line" id="todayDate"></p>
+  <h2>Today&rsquo;s practice</h2>
+  <p class="lead">A new passage each day, drawn from 36 verified quotations. Read it slowly, then carry one line of it with you.</p>
+  <div class="quote-card">
+    <blockquote id="dailyQuote"></blockquote>
+    <p class="attr" id="dailyAttr"></p>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0">Your day at a glance</h3>
+    <div id="dayStatus"></div>
+    <p style="margin-top:14px">
+      <button class="btn" data-goto="morning">Begin the morning &rarr;</button>
+      <button class="btn ghost" data-goto="evening">Evening review &rarr;</button>
+    </p>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0">Your progress</h3>
+    <div class="stats">
+      <div class="stat"><div class="num" id="statStreak">0</div><div class="lbl">day streak</div></div>
+      <div class="stat"><div class="num" id="statDays">0</div><div class="lbl">days practiced</div></div>
+      <div class="stat"><div class="num" id="statWorries">0</div><div class="lbl">worries sorted</div></div>
+      <div class="stat"><div class="num" id="statWeeks">0</div><div class="lbl">weekly reviews done</div></div>
+    </div>
+    <p><small class="note">A day counts when you save a morning intention or an evening review. The streak counts consecutive days, ending today or yesterday. Everything is stored only in this browser, on this device.</small></p>
+  </div>
+  <div class="callout"><b>How to use this app:</b> morning — read the quote, name what is in your control, choose one virtue to practice. During the day — when a worry appears, sort it in the Dichotomy of Control exercise. Evening — review honestly: what went well, what you would do differently. Sunday (or any day you choose) — do the weekly review.</div>
+</section>
+
+<!-- ============ MORNING ============ -->
+<section class="page" id="page-morning">
+  <p class="date-line" id="morningDate"></p>
+  <h2>Morning preparation</h2>
+  <p class="lead">Marcus Aurelius began his day by reminding himself what he would meet — and what was his to choose. Do the same, in your own words.</p>
+  <div class="quote-card">
+    <blockquote id="morningQuote"></blockquote>
+    <p class="attr" id="morningAttr"></p>
+  </div>
+  <div class="card">
+    <label for="mControl">What is in your control today?</label>
+    <textarea id="mControl" placeholder="e.g. How I speak to my family, whether I finish the application, how I respond when plans change…"></textarea>
+    <label for="mNotControl">What is NOT in your control today — and can be set down?</label>
+    <textarea id="mNotControl" placeholder="e.g. Whether they reply, the weather, what other people think of me…"></textarea>
+    <label>Which virtue will you practice today? <span>— pick one; the four cardinal virtues of Stoicism</span></label>
+    <div class="virtues" id="virtuePicker">
+      <div class="virtue" data-v="Wisdom"><b>Wisdom</b><span>Seeing things clearly; good judgment</span></div>
+      <div class="virtue" data-v="Justice"><b>Justice</b><span>Fairness and kindness to others</span></div>
+      <div class="virtue" data-v="Courage"><b>Courage</b><span>Doing what is right, even when hard</span></div>
+      <div class="virtue" data-v="Temperance"><b>Temperance</b><span>Self-control; wanting only what is enough</span></div>
+    </div>
+    <label for="mVirtueNote">How will you practice it, concretely?</label>
+    <textarea id="mVirtueNote" placeholder="e.g. Courage: I will make the phone call I have been putting off."></textarea>
+    <label for="mIntention">One intention for today <span>— a single sentence</span></label>
+    <input type="text" id="mIntention" placeholder="e.g. Speak slowly and listen fully before I answer.">
+    <p><button class="btn" id="saveMorning">Save morning practice</button>
+    <button class="btn ghost" id="clearMorning">Clear today&rsquo;s morning</button></p>
+    <p class="saved" id="morningSaved"></p>
+  </div>
+</section>
+
+<!-- ============ EVENING ============ -->
+<section class="page" id="page-evening">
+  <p class="date-line" id="eveningDate"></p>
+  <h2>Evening review</h2>
+  <p class="lead">Seneca advised balancing life&rsquo;s account every day. This is not a test — it is an honest look back, so tomorrow can be a little better.</p>
+  <div class="card">
+    <label for="eWentWell">What went well today?</label>
+    <textarea id="eWentWell" placeholder="Small wins count: kept your temper, finished one hard thing, helped someone…"></textarea>
+    <label for="eDifferent">What would you do differently?</label>
+    <textarea id="eDifferent" placeholder="Be specific and kind to yourself. What choice would you change, and how?"></textarea>
+    <label for="eVirtueCheck">Did you practice this morning&rsquo;s virtue?</label>
+    <select id="eVirtueCheck">
+      <option value="">— choose —</option>
+      <option>Yes — I lived it today</option>
+      <option>Partly — some moments, not all</option>
+      <option>No — it slipped away; I will try again tomorrow</option>
+    </select>
+    <label for="eCarry">One thing to carry into tomorrow</label>
+    <input type="text" id="eCarry" placeholder="e.g. Pause before answering when I feel rushed.">
+    <p><button class="btn" id="saveEvening">Save evening review</button>
+    <button class="btn ghost" id="clearEvening">Clear today&rsquo;s evening</button></p>
+    <p class="saved" id="eveningSaved"></p>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0">This morning&rsquo;s intention</h3>
+    <p id="eveningRecall" style="color:var(--muted)">No morning practice saved for today yet.</p>
+  </div>
+</section>
+
+<!-- ============ DICHOTOMY OF CONTROL ============ -->
+<section class="page" id="page-control">
+  <h2>The dichotomy of control</h2>
+  <p class="lead">Epictetus opens his <i>Enchiridion</i> with one distinction: some things are in our power, and others are not. Everything in this exercise hangs on it.</p>
+  <div class="callout">
+    <b>In my control:</b> my judgments, my intentions, my desires and aversions, my words and actions — in short, what I choose.<br>
+    <b>Not in my control:</b> my body&rsquo;s health, my property, my reputation, other people&rsquo;s opinions and choices, the past, the outcome — in short, what merely happens.
+  </div>
+  <div class="card">
+    <label for="worryInput">Write down a worry, fear, or thing on your mind:</label>
+    <input type="text" id="worryInput" placeholder="e.g. Will I get the job? What if they judge me?">
+    <p style="margin-top:12px">Now sort it honestly:</p>
+    <button class="btn" id="sortIn">In my control</button>
+    <button class="btn ghost" id="sortOut">Not in my control</button>
+    <p class="saved" id="worrySaved"></p>
+  </div>
+  <div class="two-col">
+    <div class="card">
+      <h3 style="margin-top:0">In my control <span class="pill in" id="countIn">0</span></h3>
+      <p><small class="note">Act on these. Pick the smallest next step and do it.</small></p>
+      <ul class="clean" id="listIn"></ul>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">Not in my control <span class="pill out" id="countOut">0</span></h3>
+      <p><small class="note">Practice setting these down. You can prepare for them — you cannot command them.</small></p>
+      <ul class="clean" id="listOut"></ul>
+    </div>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0">When you are unsure</h3>
+    <p>Ask: <i>&ldquo;Is there an action I can take that directly changes this?&rdquo;</i> If yes, it belongs — at least in part — in your control, and the action is the thing to do. If no action of yours changes it, it belongs outside your control, and the work is your judgment about it: the story you tell yourself, and whether you will let it rule the day. Many worries split in two — sort each part separately.</p>
+    <p><button class="btn ghost small" id="clearWorries">Clear all sorted worries</button></p>
+  </div>
+</section>
+
+<!-- ============ WEEKLY ============ -->
+<section class="page" id="page-weekly">
+  <p class="date-line" id="weekDate"></p>
+  <h2>Weekly review</h2>
+  <p class="lead">Once a week, step back and look at the whole picture — the week that passed, and the week ahead.</p>
+  <div class="card">
+    <h3 style="margin-top:0">This week so far</h3>
+    <div id="weekStats"></div>
+    <div class="progress-bar"><div id="weekBar" style="width:0%"></div></div>
+    <p><small class="note" id="weekBarNote"></small></p>
+  </div>
+  <div class="card">
+    <label for="wWins">What went well this week?</label>
+    <textarea id="wWins" placeholder="Wins, progress, moments you handled well…"></textarea>
+    <label for="wLessons">What did this week teach you?</label>
+    <textarea id="wLessons" placeholder="A pattern you noticed, a mistake worth learning from…"></textarea>
+    <label for="wHard">What was hardest — and what helped?</label>
+    <textarea id="wHard" placeholder=""></textarea>
+    <label for="wNext">Next week: one virtue to focus on, and one concrete step</label>
+    <textarea id="wNext" placeholder="e.g. Temperance: no phone after 9 pm. One step: charge it in the kitchen."></textarea>
+    <label for="wRating">How would you rate the week, honestly?</label>
+    <select id="wRating">
+      <option value="">— choose —</option>
+      <option>A hard week — I kept going anyway</option>
+      <option>A mixed week — some good, some to improve</option>
+      <option>A good week — I lived by my intentions most days</option>
+      <option>A strong week — steady, honest, and kind</option>
+    </select>
+    <p><button class="btn" id="saveWeekly">Save weekly review</button></p>
+    <p class="saved" id="weeklySaved"></p>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0">Past weekly reviews</h3>
+    <ul class="clean" id="pastWeeks"></ul>
+  </div>
+</section>
+
+<!-- ============ ALL QUOTES ============ -->
+<section class="page" id="page-quotes">
+  <h2>All 36 quotations</h2>
+  <p class="lead">Every quotation below is copied word for word from a named public-domain translation, with its book or letter and section — so you can check it yourself. The daily quote on the Today page rotates through these in order, one per day.</p>
+  <div class="filter-row" id="quoteFilters">
+    <button data-f="all" class="active">All authors</button>
+    <button data-f="Marcus Aurelius">Marcus Aurelius</button>
+    <button data-f="Epictetus">Epictetus</button>
+    <button data-f="Seneca">Seneca</button>
+  </div>
+  <div class="quote-list" id="quoteList"></div>
+  <div class="callout"><b>A note on honesty:</b> many popular &ldquo;Stoic quotes&rdquo; online are modern paraphrases, not words any Stoic wrote. Lines that could not be traced word for word to the texts were left out of this collection — including the well-known &ldquo;You have power over your mind, not outside events,&rdquo; which is a modern summary of <i>Meditations</i> 8.47, not a sentence Marcus Aurelius wrote. The genuine passage (8.47) is included here instead.</div>
+  <p><small class="note"><b>Sources.</b> Marcus Aurelius, <i>Meditations</i>, translated by George Long (1862) — Project Gutenberg eBook #15877. Epictetus, <i>Enchiridion</i>, translated by George Long. Seneca, <i>Moral Letters to Lucilius</i>, translated by Richard Mott Gummere, Loeb Classical Library (1917–1925). All three translations are in the public domain.</small></p>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="page" id="page-about">
+  <h2>About Stoicism</h2>
+  <p class="lead">Stoicism is a practical philosophy for living well — not a set of cold sayings, but a daily discipline. It began in Athens around 300 BC, taught by Zeno of Citium in a painted porch (a <i>stoa</i>), which is where the school got its name.</p>
+  <div class="card">
+    <h3 style="margin-top:0">The core ideas</h3>
+    <p><b>Virtue is the only true good.</b> The Stoics held that the only thing truly good is a good character — and the only thing truly bad is a bad one. Wealth, health, reputation, and comfort are not good or bad in themselves; they are materials to be used well or badly. The four cardinal virtues are wisdom (seeing clearly), justice (treating others fairly), courage (doing what is right even when it is hard), and temperance (self-control and wanting only what is enough).</p>
+    <p><b>The dichotomy of control.</b> Some things are in our power — our judgments, intentions, and actions. Most things are not — other people, the past, outcomes, fortune. Suffering, the Stoics argued, mostly comes not from events but from demanding that what is not in our power should obey us. Freedom is wanting only what is yours to choose.</p>
+    <p><b>Amor fati — love of fate.</b> Do not merely endure what happens; accept it and work with it. Epictetus put it plainly: do not demand that events happen as you wish, but wish them to happen as they do happen. This is not passivity — it is refusing to waste strength fighting what has already happened, so that strength is free for what you can still do.</p>
+    <p><b>Memento mori — remember you will die.</b> Marcus Aurelius reminded himself daily that death hangs over us and that life is short. The point is not gloom but urgency and gratitude: to stop postponing the good life, to treat each day as if it could be the last — calmly, not frantically — and to value the time that is actually ours.</p>
+    <p><b>Examine your impressions.</b> Between an event and your reaction sits a judgment — a story you add. Epictetus taught his students to pause at each harsh impression and say: <i>&ldquo;You are an appearance, and in no manner what you appear to be.&rdquo;</i> Then check it: is this in my control? Is my judgment true? That pause is the whole practice.</p>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0">The three voices in this app</h3>
+    <p><b>Marcus Aurelius (AD 121–180)</b> — Roman emperor from AD 161 until his death. His <i>Meditations</i> are private notes to himself, written in Greek during military campaigns, never meant for publication. They are reminders, not lectures: a powerful man correcting himself.</p>
+    <p><b>Epictetus (c. AD 50–135)</b> — born enslaved in Rome, freed, and later a teacher in Nicopolis. He wrote nothing himself; his student Arrian recorded his teaching in the <i>Discourses</i>, and distilled it into the short handbook, the <i>Enchiridion</i> (&ldquo;that which is at hand&rdquo;).</p>
+    <p><b>Seneca (c. 4 BC – AD 65)</b> — Roman statesman, playwright, and adviser to the emperor Nero. Late in life he wrote 124 moral letters to his friend Lucilius, on time, fear, money, friendship, and death — practical advice from a man who knew wealth and power from the inside and found them wanting.</p>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0">A short daily routine</h3>
+    <div class="checklist">
+      <label><input type="checkbox" data-tip="morning"> <span><b>Morning:</b> read today&rsquo;s quote; name what is in your control; choose one virtue.</span></label>
+      <label><input type="checkbox" data-tip="control"> <span><b>During the day:</b> when a worry comes, sort it — in my control, or not.</span></label>
+      <label><input type="checkbox" data-tip="evening"> <span><b>Evening:</b> review honestly — what went well, what to do differently.</span></label>
+      <label><input type="checkbox" data-tip="weekly"> <span><b>Weekly:</b> step back, note the lessons, set one intention for next week.</span></label>
+    </div>
+    <p><small class="note">Ticking these boxes is just a reminder for today — they reset each day and are not stored.</small></p>
+  </div>
+  <div class="callout">Stoicism is not a substitute for medical care or professional help. If you are struggling with your health, addiction, or a crisis, please reach out to a doctor, counselor, or a crisis line in your area. This app is a philosophy companion, not a treatment.</div>
+</section>
+
+</main>
+<footer>
+  <p><b>Stoic Daily Practice</b> — an instant-download digital product for personal use only.</p>
+  <p>All quotations are from public-domain translations (George Long, 1862; Richard M. Gummere, 1917–1925). Your entries are stored only in this browser on your device — nothing is sent anywhere. This app works fully offline.</p>
+  <p>No account, no subscription, no tracking.</p>
+  <p>Contact: <a href="mailto:mccann.c808@gmail.com">mccann.c808@gmail.com</a></p>
+</footer>
+
+<script>
+/* ================= QUOTES =================
+   36 quotations, copied word for word from named public-domain
+   translations. Each was verified against the source text:
+   - Marcus Aurelius: George Long (1862), Project Gutenberg #15877
+   - Epictetus: George Long, Enchiridion (full text)
+   - Seneca: Richard M. Gummere, Letters to Lucilius (Wikisource/Loeb)
+   Popular paraphrases that could not be traced were excluded. */
+const QUOTES = [
+/* --- Marcus Aurelius, Meditations, trans. George Long (1862) --- */
+{t:"Begin the morning by saying to thyself, I shall meet with the busybody, the ungrateful, arrogant, deceitful, envious, unsocial.",a:"Marcus Aurelius",w:"Meditations",r:"Book 2, §1",tr:"George Long (1862)"},
+{t:"It is in thy power whenever thou shalt choose to retire into thyself.",a:"Marcus Aurelius",w:"Meditations",r:"Book 4, §3",tr:"George Long (1862)"},
+{t:"Take away thy opinion, and then there is taken away the complaint, \"I have been harmed.\" Take away the complaint, \"I have been harmed,\" and the harm is taken away.",a:"Marcus Aurelius",w:"Meditations",r:"Book 4, §7",tr:"George Long (1862)"},
+{t:"Do not act as if thou wert going to live ten thousand years. Death hangs over thee. While thou livest, while it is in thy power, be good.",a:"Marcus Aurelius",w:"Meditations",r:"Book 4, §17",tr:"George Long (1862)"},
+{t:"Be like the promontory against which the waves continually break, but it stands firm and tames the fury of the water around it.",a:"Marcus Aurelius",w:"Meditations",r:"Book 4, §49",tr:"George Long (1862)"},
+{t:"Such as are thy habitual thoughts, such also will be the character of thy mind; for the soul is dyed by the thoughts.",a:"Marcus Aurelius",w:"Meditations",r:"Book 5, §16",tr:"George Long (1862)"},
+{t:"The best way of avenging thyself is not to become like [the wrong-doer].",a:"Marcus Aurelius",w:"Meditations",r:"Book 6, §6",tr:"George Long (1862)"},
+{t:"Look within. Within is the fountain of good, and it will ever bubble up, if thou wilt ever dig.",a:"Marcus Aurelius",w:"Meditations",r:"Book 7, §59",tr:"George Long (1862)"},
+{t:"The perfection of moral character consists in this, in passing every day as the last, and in being neither violently excited nor torpid nor playing the hypocrite.",a:"Marcus Aurelius",w:"Meditations",r:"Book 7, §69",tr:"George Long (1862)"},
+{t:"If thou art pained by any external thing, it is not this thing that disturbs thee, but thy own judgment about it. And it is in thy power to wipe out this judgment now.",a:"Marcus Aurelius",w:"Meditations",r:"Book 8, §47",tr:"George Long (1862)"},
+{t:"No longer talk at all about the kind of man that a good man ought to be, but be such.",a:"Marcus Aurelius",w:"Meditations",r:"Book 10, §16",tr:"George Long (1862)"},
+{t:"I have often wondered how it is that every man loves himself more than all the rest of men, but yet sets less value on his own opinion of himself than on the opinion of others.",a:"Marcus Aurelius",w:"Meditations",r:"Book 12, §4",tr:"George Long (1862)"},
+/* --- Epictetus, Enchiridion, trans. George Long --- */
+{t:"Straightway then practise saying to every harsh appearance, You are an appearance, and in no manner what you appear to be.",a:"Epictetus",w:"Enchiridion",r:"Chapter 1, §4",tr:"George Long"},
+{t:"Men are disturbed not by the things which happen, but by the opinions about the things.",a:"Epictetus",w:"Enchiridion",r:"Chapter 5",tr:"George Long"},
+{t:"Be not elated at any advantage (excellence), which belongs to another.",a:"Epictetus",w:"Enchiridion",r:"Chapter 6",tr:"George Long"},
+{t:"Seek not that the things which happen should happen as you wish; but wish the things which happen to be as they are, and you will have a tranquil flow of life.",a:"Epictetus",w:"Enchiridion",r:"Chapter 8",tr:"George Long"},
+{t:"Disease is an impediment to the body, but not to the will, unless the will itself chooses.",a:"Epictetus",w:"Enchiridion",r:"Chapter 9",tr:"George Long"},
+{t:"On the occasion of every accident (event) that befals you, remember to turn to yourself and inquire what power you have for turning it to use.",a:"Epictetus",w:"Enchiridion",r:"Chapter 10",tr:"George Long"},
+{t:"Never say about any thing, I have lost it, but say I have restored it.",a:"Epictetus",w:"Enchiridion",r:"Chapter 11",tr:"George Long"},
+{t:"Whoever then wishes to be free, let him neither wish for any thing nor avoid anything which depends on others: if he does not observe this rule, he must be a slave.",a:"Epictetus",w:"Enchiridion",r:"Chapter 14, §2",tr:"George Long"},
+{t:"Remember that thou art an actor in a play, of such a kind as the teacher (author) may choose; if short, of a short one; if long, of a long one.",a:"Epictetus",w:"Enchiridion",r:"Chapter 17",tr:"George Long"},
+{t:"You can be invincible, if you enter into no contest in which it is not in your power to conquer.",a:"Epictetus",w:"Enchiridion",r:"Chapter 19",tr:"George Long"},
+{t:"Remember that it is not he who reviles you or strikes you, who insults you, but it is your opinion about these things as being insulting.",a:"Epictetus",w:"Enchiridion",r:"Chapter 20",tr:"George Long"},
+{t:"Let death and exile and every other thing which appears dreadful be daily before your eyes; but most of all death: and you will never think of any thing mean nor will you desire any thing extravagantly.",a:"Epictetus",w:"Enchiridion",r:"Chapter 21",tr:"George Long"},
+/* --- Seneca, Moral Letters to Lucilius, trans. Richard M. Gummere --- */
+{t:"Hold every hour in your grasp. Lay hold of to-day's task, and you will not need to depend so much upon to-morrow's.",a:"Seneca",w:"Moral Letters to Lucilius",r:"Letter 1, §2",tr:"Richard M. Gummere"},
+{t:"Nothing, Lucilius, is ours, except time.",a:"Seneca",w:"Moral Letters to Lucilius",r:"Letter 1, §3",tr:"Richard M. Gummere"},
+{t:"What man can you show me who places any value on his time, who reckons the worth of each day, who understands that he is dying daily?",a:"Seneca",w:"Moral Letters to Lucilius",r:"Letter 1, §2",tr:"Richard M. Gummere"},
+{t:"The primary indication, to my thinking, of a well-ordered mind is a man's ability to remain in one place and linger in his own company.",a:"Seneca",w:"Moral Letters to Lucilius",r:"Letter 2, §1",tr:"Richard M. Gummere"},
+{t:"Everywhere means nowhere.",a:"Seneca",w:"Moral Letters to Lucilius",r:"Letter 2, §2",tr:"Richard M. Gummere"},
+{t:"It is not the man who has too little, but the man who craves more, that is poor.",a:"Seneca",w:"Moral Letters to Lucilius",r:"Letter 2, §6",tr:"Richard M. Gummere"},
+{t:"Do you ask what is the proper limit to wealth? It is, first, to have what is necessary, and, second, to have what is enough.",a:"Seneca",w:"Moral Letters to Lucilius",r:"Letter 2, §6",tr:"Richard M. Gummere"},
+{t:"When friendship is settled, you must trust; before friendship is formed, you must pass judgment.",a:"Seneca",w:"Moral Letters to Lucilius",r:"Letter 3, §2",tr:"Richard M. Gummere"},
+{t:"Associate with those who will make a better man of you. Welcome those whom you yourself can improve. The process is mutual; for men learn while they teach.",a:"Seneca",w:"Moral Letters to Lucilius",r:"Letter 7, §8",tr:"Richard M. Gummere"},
+{t:"There are more things, Lucilius, likely to frighten us than there are to crush us; we suffer more often in imagination than in reality.",a:"Seneca",w:"Moral Letters to Lucilius",r:"Letter 13, §4",tr:"Richard M. Gummere"},
+{t:"You need a change of soul rather than a change of climate.",a:"Seneca",w:"Moral Letters to Lucilius",r:"Letter 28, §1",tr:"Richard M. Gummere"},
+{t:"Our plans miscarry because they have no aim. When a man does not know what harbour he is making for, no wind is the right wind.",a:"Seneca",w:"Moral Letters to Lucilius",r:"Letter 71, §3",tr:"Richard M. Gummere"}
+];
+
+/* ================= HELPERS ================= */
+const $ = id => document.getElementById(id);
+const PREFIX = "stoicdaily_";
+function todayKey(d){ d = d || new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+function fmtDate(d){ return d.toLocaleDateString(undefined,{weekday:"long",year:"numeric",month:"long",day:"numeric"}); }
+function dayOfYear(d){ const s=new Date(d.getFullYear(),0,0); return Math.floor((d-s)/86400000); }
+function load(k,fb){ try{ const v=localStorage.getItem(PREFIX+k); return v?JSON.parse(v):fb; }catch(e){ return fb; } }
+function save(k,v){ try{ localStorage.setItem(PREFIX+k, JSON.stringify(v)); }catch(e){} }
+function del(k){ try{ localStorage.removeItem(PREFIX+k); }catch(e){} }
+function practicedDays(){ return load("days",[]); }
+function markPracticed(){ const d=todayKey(); const days=practicedDays(); if(!days.includes(d)){ days.push(d); days.sort(); save("days",days);} }
+function mondayOf(d){ const x=new Date(d); const day=(x.getDay()+6)%7; x.setDate(x.getDate()-day); x.setHours(0,0,0,0); return x; }
+function weekKey(d){ return "week_"+todayKey(mondayOf(d||new Date())); }
+
+/* ================= NAV ================= */
+document.querySelectorAll("#nav button").forEach(b=>{
+  b.addEventListener("click",()=>showPage(b.dataset.page));
+});
+document.querySelectorAll("[data-goto]").forEach(b=>{
+  b.addEventListener("click",()=>showPage(b.dataset.goto));
+});
+function showPage(p){
+  document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===p));
+  document.querySelectorAll("section.page").forEach(s=>s.classList.toggle("active",s.id==="page-"+p));
+  if(p==="weekly") renderWeekly();
+  if(p==="evening") renderEveningRecall();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* ================= TODAY ================= */
+function quoteForDate(d){
+  const idx = dayOfYear(d) % QUOTES.length;
+  return {q:QUOTES[idx], n:idx+1};
+}
+function attrHTML(q){
+  return "<b>"+q.a+"</b> — <i>"+q.w+"</i>, "+q.r+" · translated by "+q.tr;
+}
+function renderToday(){
+  const now=new Date();
+  const {q,n}=quoteForDate(now);
+  $("todayDate").textContent = fmtDate(now)+"  ·  Quote "+n+" of "+QUOTES.length;
+  $("dailyQuote").textContent = "\u201C"+q.t+"\u201D";
+  $("dailyAttr").innerHTML = attrHTML(q);
+  $("morningQuote").textContent = "\u201C"+q.t+"\u201D";
+  $("morningAttr").innerHTML = attrHTML(q);
+  $("morningDate").textContent = fmtDate(now)+"  ·  Morning";
+  $("eveningDate").textContent = fmtDate(now)+"  ·  Evening";
+  const m=load("morning_"+todayKey(),null), e=load("evening_"+todayKey(),null);
+  $("dayStatus").innerHTML =
+    "<p>"+(m?"\u2713 Morning intention saved":"\u25CB Morning practice not yet done today")+"<br>"+
+    (e?"\u2713 Evening review saved":"\u25CB Evening review not yet done today")+"</p>"+
+    (m&&m.virtue?"<p>Today&rsquo;s virtue: <b>"+m.virtue+"</b>"+(m.intention?" — \u201C"+escapeHtml(m.intention)+"\u201D":"")+"</p>":"");
+  renderStats();
+}
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+/* ================= STATS / STREAK ================= */
+function computeStreak(){
+  const set=new Set(practicedDays());
+  let streak=0; const d=new Date();
+  if(!set.has(todayKey(d))) d.setDate(d.getDate()-1); // streak may end yesterday
+  while(set.has(todayKey(d))){ streak++; d.setDate(d.getDate()-1); }
+  return streak;
+}
+function renderStats(){
+  $("statStreak").textContent = computeStreak();
+  $("statDays").textContent = practicedDays().length;
+  $("statWorries").textContent = load("worries",[]).length;
+  $("statWeeks").textContent = Object.keys(load("weeks",{})).length;
+}
+
+/* ================= MORNING ================= */
+let chosenVirtue="";
+document.querySelectorAll("#virtuePicker .virtue").forEach(v=>{
+  v.addEventListener("click",()=>{
+    document.querySelectorAll("#virtuePicker .virtue").forEach(x=>x.classList.remove("sel"));
+    v.classList.add("sel"); chosenVirtue=v.dataset.v;
+  });
+});
+function loadMorning(){
+  const m=load("morning_"+todayKey(),null);
+  if(m){
+    $("mControl").value=m.control||""; $("mNotControl").value=m.notControl||"";
+    $("mVirtueNote").value=m.virtueNote||""; $("mIntention").value=m.intention||"";
+    if(m.virtue){ chosenVirtue=m.virtue;
+      document.querySelectorAll("#virtuePicker .virtue").forEach(x=>x.classList.toggle("sel",x.dataset.v===m.virtue)); }
+    $("morningSaved").textContent="Saved for today.";
+  }
+}
+$("saveMorning").addEventListener("click",()=>{
+  save("morning_"+todayKey(),{control:$("mControl").value.trim(),notControl:$("mNotControl").value.trim(),
+    virtue:chosenVirtue,virtueNote:$("mVirtueNote").value.trim(),intention:$("mIntention").value.trim()});
+  markPracticed();
+  $("morningSaved").textContent="Saved \u2713 — this counts toward your streak.";
+  renderToday();
+});
+$("clearMorning").addEventListener("click",()=>{
+  if(!confirm("Clear today\u2019s morning practice?")) return;
+  del("morning_"+todayKey());
+  ["mControl","mNotControl","mVirtueNote","mIntention"].forEach(id=>$(id).value="");
+  chosenVirtue=""; document.querySelectorAll("#virtuePicker .virtue").forEach(x=>x.classList.remove("sel"));
+  $("morningSaved").textContent="Cleared."; renderToday();
+});
+
+/* ================= EVENING ================= */
+function loadEvening(){
+  const e=load("evening_"+todayKey(),null);
+  if(e){
+    $("eWentWell").value=e.wentWell||""; $("eDifferent").value=e.different||"";
+    $("eVirtueCheck").value=e.virtueCheck||""; $("eCarry").value=e.carry||"";
+    $("eveningSaved").textContent="Saved for today.";
+  }
+  renderEveningRecall();
+}
+function renderEveningRecall(){
+  const m=load("morning_"+todayKey(),null);
+  $("eveningRecall").innerHTML = m
+    ? ("Virtue: <b>"+escapeHtml(m.virtue||"—")+"</b><br>Intention: \u201C"+escapeHtml(m.intention||"—")+"\u201D<br>In my control today: "+escapeHtml(m.control||"—"))
+    : "No morning practice saved for today yet.";
+}
+$("saveEvening").addEventListener("click",()=>{
+  save("evening_"+todayKey(),{wentWell:$("eWentWell").value.trim(),different:$("eDifferent").value.trim(),
+    virtueCheck:$("eVirtueCheck").value,carry:$("eCarry").value.trim()});
+  markPracticed();
+  $("eveningSaved").textContent="Saved \u2713 — this counts toward your streak.";
+  renderToday();
+});
+$("clearEvening").addEventListener("click",()=>{
+  if(!confirm("Clear today\u2019s evening review?")) return;
+  del("evening_"+todayKey());
+  ["eWentWell","eDifferent","eCarry"].forEach(id=>$(id).value=""); $("eVirtueCheck").value="";
+  $("eveningSaved").textContent="Cleared."; renderToday();
+});
+
+/* ================= DICHOTOMY OF CONTROL ================= */
+function renderWorries(){
+  const w=load("worries",[]);
+  const inn=w.filter(x=>x.bucket==="in"), out=w.filter(x=>x.bucket==="out");
+  $("countIn").textContent=inn.length; $("countOut").textContent=out.length;
+  const li=(item,i)=>"<li><span>"+escapeHtml(item.text)+" <small class=\"note\">· "+escapeHtml(item.date)+"</small></span><button class=\"x\" data-i=\""+i+"\" title=\"Remove\">\u2715</button></li>";
+  $("listIn").innerHTML = inn.length? inn.map((x,k)=>li(x, w.indexOf(x))).join("") : "<li><span style=\"color:var(--muted)\">Nothing here yet.</span></li>";
+  $("listOut").innerHTML = out.length? out.map((x,k)=>li(x, w.indexOf(x))).join("") : "<li><span style=\"color:var(--muted)\">Nothing here yet.</span></li>";
+  document.querySelectorAll("ul.clean .x").forEach(b=>b.addEventListener("click",()=>{
+    const arr=load("worries",[]); arr.splice(+b.dataset.i,1); save("worries",arr); renderWorries(); renderStats();
+  }));
+  renderStats();
+}
+function sortWorry(bucket){
+  const v=$("worryInput").value.trim();
+  if(!v){ $("worrySaved").textContent="Write the worry first, then sort it."; return; }
+  const w=load("worries",[]);
+  w.push({text:v,bucket:bucket,date:todayKey()});
+  save("worries",w); $("worryInput").value="";
+  $("worrySaved").textContent = bucket==="in"
+    ? "Sorted: in your control. What is the smallest next step you can take on it?"
+    : "Sorted: not in your control. You can prepare for it — you cannot command it. Let the judgment, not the event, be your work.";
+  renderWorries();
+}
+$("sortIn").addEventListener("click",()=>sortWorry("in"));
+$("sortOut").addEventListener("click",()=>sortWorry("out"));
+$("worryInput").addEventListener("keydown",e=>{ if(e.key==="Enter") sortWorry("out"); });
+$("clearWorries").addEventListener("click",()=>{
+  if(!confirm("Clear all sorted worries?")) return;
+  save("worries",[]); renderWorries(); $("worrySaved").textContent="";
+});
+
+/* ================= WEEKLY ================= */
+function renderWeekly(){
+  const now=new Date(), mon=mondayOf(now);
+  const sun=new Date(mon); sun.setDate(sun.getDate()+6);
+  $("weekDate").textContent="Week of "+fmtDate(mon)+" – "+fmtDate(sun);
+  const days=practicedDays().filter(d=>d>=todayKey(mon)&&d<=todayKey(sun)).length;
+  const worries=load("worries",[]).filter(x=>x.date>=todayKey(mon)&&x.date<=todayKey(sun)).length;
+  $("weekStats").innerHTML="<p><b>"+days+" of 7</b> days practiced this week · <b>"+worries+"</b> worries sorted this week</p>";
+  $("weekBar").style.width=Math.round(days/7*100)+"%";
+  $("weekBarNote").textContent = days===7?"A full week of practice. Well done.":(days===0?"No practice logged yet this week — today is a good day to start.":days+" day"+(days>1?"s":"")+" practiced; "+(7-days)+" to go for a full week.");
+  const weeks=load("weeks",{}), wk=weeks[weekKey()];
+  if(wk){
+    $("wWins").value=wk.wins||""; $("wLessons").value=wk.lessons||"";
+    $("wHard").value=wk.hard||""; $("wNext").value=wk.next||""; $("wRating").value=wk.rating||"";
+    $("weeklySaved").textContent="This week\u2019s review is saved.";
+  } else {
+    ["wWins","wLessons","wHard","wNext"].forEach(id=>$(id).value=""); $("wRating").value="";
+    $("weeklySaved").textContent="";
+  }
+  const entries=Object.keys(weeks).sort().reverse();
+  $("pastWeeks").innerHTML = entries.length
+    ? entries.map(k=>{ const w=weeks[k]; const d=k.replace("week_","");
+        return "<li><span><b>Week of "+d+"</b> — "+escapeHtml(w.rating||"no rating")+"<br><small class=\"note\">"+escapeHtml((w.next||"").slice(0,140))+"</small></span></li>"; }).join("")
+    : "<li><span style=\"color:var(--muted)\">No weekly reviews yet.</span></li>";
+}
+$("saveWeekly").addEventListener("click",()=>{
+  const weeks=load("weeks",{});
+  weeks[weekKey()]={wins:$("wWins").value.trim(),lessons:$("wLessons").value.trim(),
+    hard:$("wHard").value.trim(),next:$("wNext").value.trim(),rating:$("wRating").value};
+  save("weeks",weeks);
+  $("weeklySaved").textContent="Weekly review saved \u2713";
+  renderWeekly(); renderStats();
+});
+
+/* ================= ALL QUOTES ================= */
+let quoteFilter="all";
+function renderQuoteList(){
+  const list=QUOTES.map((q,i)=>({q:q,i:i})).filter(x=>quoteFilter==="all"||x.q.a===quoteFilter);
+  $("quoteList").innerHTML=list.map(x=>
+    "<div class=\"item\"><blockquote>\u201C"+escapeHtml(x.q.t)+"\u201D</blockquote>"+
+    "<div class=\"attr\"><b>"+x.q.a+"</b> — <i>"+x.q.w+"</i>, "+x.q.r+" · translated by "+x.q.tr+" &nbsp;·&nbsp; Day "+(x.i+1)+" of "+QUOTES.length+"</div></div>"
+  ).join("");
+}
+document.querySelectorAll("#quoteFilters button").forEach(b=>{
+  b.addEventListener("click",()=>{
+    document.querySelectorAll("#quoteFilters button").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active"); quoteFilter=b.dataset.f; renderQuoteList();
+  });
+});
+
+/* ================= INIT ================= */
+renderToday();
+loadMorning();
+loadEvening();
+renderWorries();
+renderQuoteList();
+</script>
+</body>
+</html>
