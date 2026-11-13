@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Debate the Dead — Argue with Marcus Aurelius, Epictetus &amp; Seneca, in their own words</title>
+<style>
+  :root{--ink:#1d1a16;--paper:#f7f2e7;--card:#fffdf6;--accent:#7a5a1f;--line:#d8cdb2;--muted:#6b6252}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:Georgia,'Times New Roman',serif;line-height:1.55}
+  header{max-width:900px;margin:0 auto;padding:28px 18px 8px}
+  h1{font-size:2rem;line-height:1.15;margin:0 0 6px}
+  .sub{font-size:1.05rem;color:var(--muted)}
+  main{max-width:900px;margin:0 auto;padding:10px 18px 40px}
+  .honesty{border:2px solid var(--accent);background:#fff8e1;padding:14px 16px;border-radius:10px;margin:16px 0}
+  .honesty strong{font-size:1.05rem}
+  section.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin:16px 0}
+  h2{font-size:1.25rem;margin:0 0 10px}
+  h3{font-size:1.05rem;margin:18px 0 6px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+  button{font-family:inherit;cursor:pointer}
+  .pick{border:1px solid var(--line);background:#fff;border-radius:10px;padding:14px;text-align:left;font-size:1rem}
+  .pick:hover,.pick[aria-pressed="true"]{border-color:var(--accent);background:#fdf3d0;outline:2px solid var(--accent)}
+  .pick small{display:block;color:var(--muted);margin-top:4px;line-height:1.4}
+  .claim{width:100%;text-align:left}
+  .step{border-left:4px solid var(--accent);background:#fff;padding:14px 16px;margin:12px 0;border-radius:0 8px 8px 0}
+  blockquote{margin:8px 0;font-size:1.15rem;font-style:italic}
+  cite{display:block;font-style:normal;color:var(--muted);font-size:.92rem;margin-top:6px}
+  .label{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:bold}
+  .framing{color:var(--ink)}
+  .you{border-left-color:#5b7a4a}
+  .controls{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+  .btn{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:11px 16px;font-size:1rem}
+  .btn.secondary{background:#fff;color:var(--ink);border:1px solid var(--accent)}
+  .hidden{display:none}
+  .verdict{background:#eef3e6;border:1px solid #9db38a;border-radius:10px;padding:14px 16px}
+  details{margin:10px 0}
+  summary{cursor:pointer;font-weight:bold}
+  footer{max-width:900px;margin:0 auto;padding:0 18px 36px;color:var(--muted);font-size:.95rem}
+  ul{padding-left:20px}
+  @media print{
+    body{background:#fff}
+    .controls,.noprint{display:none!important}
+    section.card{border:1px solid #999;break-inside:avoid}
+    .hidden{display:block!important}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Debate the Dead</h1>
+  <p class="sub">Pick a philosopher. Pick a claim. Argue — and hear the answer only in words they actually wrote.</p>
+  <div class="honesty" role="note">
+    <strong>Honest label — read this first.</strong>
+    <p style="margin:6px 0 0">These are the philosopher&rsquo;s <strong>real, verified words</strong>, curated to answer you. This is <strong>not</strong> the person speaking, <strong>not</strong> a resurrection, and <strong>not</strong> AI pretending to be them. No new words are put in their mouths. The short plain-English framing between quotes is the curator&rsquo;s — it is labelled as framing, and it is never presented as a quote. If a line could not be verified word-for-word in a named public-domain edition, it is not on this page.</p>
+  </div>
+</header>
+
+<main>
+  <section class="card" id="step1">
+    <h2>1 &middot; Choose your opponent</h2>
+    <p>All three are Stoics. All three are in the public domain. None of them is alive to defend himself — which is exactly why only his verified words are used.</p>
+    <div class="grid" id="philGrid"></div>
+    <p id="philChoice" aria-live="polite"><em>No philosopher chosen yet.</em></p>
+  </section>
+
+  <section class="card hidden" id="step2">
+    <h2>2 &middot; Choose your claim</h2>
+    <p>State your position. Your opponent will answer it — in his own words, step by step.</p>
+    <div class="grid" id="claimGrid"></div>
+  </section>
+
+  <section class="card hidden" id="debate">
+    <h2 id="debateTitle">The debate</h2>
+    <p id="debateIntro"></p>
+    <div class="step you">
+      <span class="label">Your position</span>
+      <p class="framing" id="youSay"></p>
+    </div>
+    <div id="steps"></div>
+    <div class="controls noprint">
+      <button class="btn" id="nextBtn" type="button">Reveal the next move</button>
+      <button class="btn secondary" id="restartBtn" type="button">Start a new debate</button>
+      <button class="btn secondary" id="printBtn" type="button">Print this debate</button>
+    </div>
+    <div id="verdict" class="verdict hidden">
+      <h3>Closing move — what to take away</h3>
+      <p id="verdictText"></p>
+      <p><em>That is the end of the curated exchange. The quotes above are the whole of your opponent&rsquo;s case. What you do with them is yours.</em></p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>How this works</h2>
+    <ol>
+      <li>You pick a philosopher and a claim.</li>
+      <li>The page shows your position, then reveals the philosopher&rsquo;s answer in three moves: an opening quote, a counter-quote, and a closing quote.</li>
+      <li>Every quoted line is copied verbatim from the edition named under it. Square brackets are the translator&rsquo;s own. An ellipsis (&hellip;) means words were cut from the passage — at the start, or from the middle — never added, and never from the end: every quote runs to the end of its sentence.</li>
+      <li>Nothing on this page is generated in the philosopher&rsquo;s voice. The framing sentences are modern, plain, and labelled as framing.</li>
+      <li>This file works offline. It makes no network calls, needs no account, and stores nothing.</li>
+    </ol>
+    <details>
+      <summary>What this page deliberately does NOT do</summary>
+      <ul>
+        <li>It does not use the popular modern line &ldquo;You have power over your mind&rdquo; — that wording has no verbatim source in the <i>Meditations</i> and is excluded. The nearest real passage, <i>Meditations</i> 8.47, is quoted instead, in George Long&rsquo;s words.</li>
+        <li>It does not invent, paraphrase-into-quotes, or &ldquo;modernise&rdquo; a line and call it a quotation.</li>
+        <li>It does not use voice, a clone, or any likeness of a living person.</li>
+        <li>Where Seneca is quoting someone else (Cleanthes in Letter 107, Epicurus in Letter 16, Lucilius in Letter 24), the page says so.</li>
+      </ul>
+    </details>
+  </section>
+
+  <section class="card">
+    <h2>Sources — the exact editions used</h2>
+    <ul>
+      <li><strong>Marcus Aurelius, <i>Meditations</i></strong> — translated by George Long, 1862. Project Gutenberg eBook 15877, <i>The Thoughts of the Emperor Marcus Aurelius Antoninus</i>. Cited by book and section, e.g. 4.17.</li>
+      <li><strong>Epictetus, <i>Enchiridion</i> (The Manual)</strong> — translated by George Long, in <i>A Selection from the Discourses of Epictetus, with the Encheiridion</i>. Project Gutenberg eBook 10661. Cited by chapter, e.g. ch. 8. Arrian compiled the teaching; Epictetus himself wrote nothing.</li>
+      <li><strong>Seneca, <i>Letters to Lucilius</i> (<i>Moral Letters to Lucilius</i>)</strong> — translated by Richard M. Gummere, Loeb Classical Library, 1917–1925. Cited by letter and section, e.g. Letter 1.2. The Gummere text is also carried on Wikisource under <i>Moral letters to Lucilius</i>.</li>
+    </ul>
+    <p>Check any quote: open the edition above, go to the book / chapter / letter named, and compare the words. That is the whole verification method — and the reason the quote list on this page is short on purpose.</p>
+    <p><strong>Quote count on this page: 42 verified quotes</strong> — 15 Marcus Aurelius, 12 Epictetus, 15 Seneca. Each debate uses three of them.</p>
+  </section>
+</main>
+
+<footer>
+  <p>Debate the Dead — prototype. Public-domain texts only. No accounts, no payments, no network calls, no tracking.</p>
+  <p>Contact: <a href="mailto:mccann.c808@gmail.com">mccann.c808@gmail.com</a></p>
+</footer>
+
+<script>
+"use strict";
+/* All quotes below were checked verbatim against the editions named in Sources.
+   Framing text is modern and is never placed inside quotation marks. */
+var QUOTES = {
+  marcus: {
+    m21:  {text:"Begin the morning by saying to thyself, I shall meet with the busybody, the ungrateful, arrogant, deceitful, envious, unsocial.", src:"Marcus Aurelius, Meditations 2.1, trans. George Long"},
+    m43:  {text:"Men seek retreats for themselves, houses in the country, seashores, and mountains; and thou too art wont to desire such things very much. But this is altogether a mark of the most common sort of men, for it is in thy power whenever thou shalt choose to retire into thyself.", src:"Marcus Aurelius, Meditations 4.3, trans. George Long"},
+    m47:  {text:"Take away thy opinion, and then there is taken away the complaint, \u201CI have been harmed.\u201D Take away the complaint, \u201CI have been harmed,\u201D and the harm is taken away.", src:"Marcus Aurelius, Meditations 4.7, trans. George Long"},
+    m417: {text:"Do not act as if thou wert going to live ten thousand years. Death hangs over thee. While thou livest, while it is in thy power, be good.", src:"Marcus Aurelius, Meditations 4.17, trans. George Long"},
+    m443: {text:"Time is like a river made up of the events which happen, and a violent stream; for as soon as a thing has been seen, it is carried away, and another comes in its place, and this will be carried away too.", src:"Marcus Aurelius, Meditations 4.43, trans. George Long"},
+    m449: {text:"Be like the promontory against which the waves continually break, but it stands firm and tames the fury of the water around it.", src:"Marcus Aurelius, Meditations 4.49, trans. George Long"},
+    m51:  {text:"In the morning when thou risest unwillingly, let this thought be present,\u2014I am rising to the work of a human being.", src:"Marcus Aurelius, Meditations 5.1, trans. George Long"},
+    m516: {text:"Such as are thy habitual thoughts, such also will be the character of thy mind; for the soul is dyed by the thoughts.", src:"Marcus Aurelius, Meditations 5.16, trans. George Long"},
+    m520: {text:"The mind converts and changes every hindrance to its activity into an aid; and so that which is a hindrance is made a furtherance to an act; and that which is an obstacle on the road helps us on this road.", src:"Marcus Aurelius, Meditations 5.20, trans. George Long"},
+    m66:  {text:"The best way of avenging thyself is not to become like [the wrong-doer].", src:"Marcus Aurelius, Meditations 6.6, trans. George Long"},
+    m759: {text:"Look within. Within is the fountain of good, and it will ever bubble up, if thou wilt ever dig.", src:"Marcus Aurelius, Meditations 7.59, trans. George Long"},
+    m847: {text:"If thou art pained by any external thing, it is not this thing that disturbs thee, but thy own judgment about it. And it is in thy power to wipe out this judgment now.", src:"Marcus Aurelius, Meditations 8.47, trans. George Long"},
+    m1016:{text:"No longer talk at all about the kind of man that a good man ought to be, but be such.", src:"Marcus Aurelius, Meditations 10.16, trans. George Long"},
+    m1118:{text:"Seventh, that it is not men's acts which disturb us, for those acts have their foundation in men's ruling principles, but it is our own opinions which disturb us.", src:"Marcus Aurelius, Meditations 11.18, trans. George Long"},
+    m124: {text:"I have often wondered how it is that every man loves himself more than all the rest of men, but yet sets less value on his own opinion of himself than on the opinion of others.", src:"Marcus Aurelius, Meditations 12.4, trans. George Long"}
+  },
+  epictetus: {
+    e1:  {text:"Of things some are in our power, and others are not.", src:"Epictetus, Enchiridion 1, trans. George Long"},
+    e2:  {text:"\u2026But if you attempt to avoid disease, or death, or poverty, you will be unhappy.", src:"Epictetus, Enchiridion 2, trans. George Long"},
+    e5:  {text:"Men are disturbed not by the things which happen, but by the opinions about the things; for example, death is nothing terrible, for if it were it would have seemed so to Socrates; for the opinion about death that it is terrible, is the terrible thing.", src:"Epictetus, Enchiridion 5, trans. George Long"},
+    e8:  {text:"Seek not that the things which happen should happen as you wish; but wish the things which happen to be as they are, and you will have a tranquil flow of life.", src:"Epictetus, Enchiridion 8, trans. George Long"},
+    e9:  {text:"Disease is an impediment to the body, but not to the will, unless the will itself chooses.", src:"Epictetus, Enchiridion 9, trans. George Long"},
+    e11: {text:"Never say about anything, I have lost it, but say I have restored it.", src:"Epictetus, Enchiridion 11, trans. George Long"},
+    e13: {text:"If you would improve, submit to be considered without sense and foolish with respect to externals.", src:"Epictetus, Enchiridion 13, trans. George Long"},
+    e14: {text:"\u2026Whoever then wishes to be free let him neither wish for anything nor avoid anything which depends on others: if he does not observe this rule, he must be a slave.", src:"Epictetus, Enchiridion 14, trans. George Long"},
+    e20: {text:"Remember that it is not he who reviles you or strikes you, who insults you, but it is your opinion about these things as being insulting. When then a man irritates you, you must know that it is your own opinion which has irritated you.", src:"Epictetus, Enchiridion 20, trans. George Long"},
+    e21: {text:"Let death and exile and every other thing which appears dreadful be daily before your eyes; but most of all death: and you will never think of anything mean nor will you desire anything extravagantly.", src:"Epictetus, Enchiridion 21, trans. George Long"},
+    e23: {text:"If it should ever happen to you to be turned to externals in order to please some person, you must know that you have lost your purpose in life.", src:"Epictetus, Enchiridion 23, trans. George Long"},
+    e28: {text:"If any person was intending to put your body in the power of any man whom you fell in with on the way, you would be vexed; but that you put your understanding in the power of any man whom you meet, so that if he should revile you, it is disturbed and troubled, are you not ashamed at this?", src:"Epictetus, Enchiridion 28, trans. George Long"}
+  },
+  seneca: {
+    s11:  {text:"Continue to act thus, my dear Lucilius\u2014set yourself free for your own sake; gather and save your time, which till lately has been forced from you, or filched away, or has merely slipped from your hands.", src:"Seneca, Letters to Lucilius, Letter 1.1, trans. Richard M. Gummere"},
+    s12:  {text:"Therefore, Lucilius, do as you write me that you are doing: hold every hour in your grasp. Lay hold of to-day\u2019s task, and you will not need to depend so much upon to-morrow\u2019s. While we are postponing, life speeds by.", src:"Seneca, Letters to Lucilius, Letter 1.2, trans. Richard M. Gummere"},
+    s13:  {text:"Nothing, Lucilius, is ours, except time.", src:"Seneca, Letters to Lucilius, Letter 1.3, trans. Richard M. Gummere"},
+    s26:  {text:"\u2026It is not the man who has too little, but the man who craves more, that is poor.", src:"Seneca, Letters to Lucilius, Letter 2.6, trans. Richard M. Gummere"},
+    s78:  {text:"\u2026Associate with those who will make a better man of you. Welcome those whom you yourself can improve. The process is mutual; for men learn while they teach.", src:"Seneca, Letters to Lucilius, Letter 7.8, trans. Richard M. Gummere"},
+    s128: {text:"Hence, every day ought to be regulated as if it closed the series, as if it rounded out and completed our existence.", src:"Seneca, Letters to Lucilius, Letter 12.8, trans. Richard M. Gummere"},
+    s129: {text:"\u2026That man is happiest, and is secure in his own possession of himself, who can await the morrow without apprehension.", src:"Seneca, Letters to Lucilius, Letter 12.9, trans. Richard M. Gummere"},
+    s134: {text:"There are more things, Lucilius, likely to frighten us than there are to crush us; we suffer more often in imagination than in reality.", src:"Seneca, Letters to Lucilius, Letter 13.4, trans. Richard M. Gummere"},
+    s135: {text:"Accordingly, some things torment us more than they ought; some torment us before they ought; and some torment us when they ought not to torment us at all.", src:"Seneca, Letters to Lucilius, Letter 13.5, trans. Richard M. Gummere"},
+    s167: {text:"If you live according to nature, you will never be poor; if you live according to opinion, you will never be rich.", src:"Seneca, Letters to Lucilius, Letter 16.7, trans. Richard M. Gummere — Seneca quoting Epicurus"},
+    s24:  {text:"I remember one day you were handling the well-known commonplace,\u2014that we do not suddenly fall on death, but advance towards it by slight degrees; we die every day.", src:"Seneca, Letters to Lucilius, Letter 24.19, trans. Richard M. Gummere — Seneca quoting Lucilius"},
+    s281: {text:"\u2026You need a change of soul rather than a change of climate.", src:"Seneca, Letters to Lucilius, Letter 28.1, trans. Richard M. Gummere"},
+    s1079:{text:"\u2026Whatever happens, assume that it was bound to happen, and do not be willing to rail at Nature.", src:"Seneca, Letters to Lucilius, Letter 107.9, trans. Richard M. Gummere"},
+    s10711:{text:"Aye, the willing soul Fate leads, but the unwilling drags along.", src:"Seneca, Letters to Lucilius, Letter 107.11, trans. Richard M. Gummere — Seneca quoting Cleanthes"},
+    s10712:{text:"Let us live thus, and speak thus; let Fate find us ready and alert.", src:"Seneca, Letters to Lucilius, Letter 107.12, trans. Richard M. Gummere"}
+  }
+};
+
+var PHILOSOPHERS = [
+  {id:"marcus", name:"Marcus Aurelius", dates:"121–180", bio:"Roman emperor. Wrote the Meditations as private notes to himself, in Greek. No title of his own."},
+  {id:"epictetus", name:"Epictetus", dates:"c. 55–135", bio:"Former slave, then teacher at Nicopolis. Wrote nothing; Arrian recorded his teaching in the Discourses and the Enchiridion."},
+  {id:"seneca", name:"Seneca", dates:"c. 4 BCE – 65 CE", bio:"Roman statesman and writer. The Letters to Lucilius were written in his last years, 63–65."}
+];
+
+var CLAIMS = [
+  {id:"fate", title:"Fate controls my life", you:"Fate controls my life. What happens to me is decided elsewhere, so my choices hardly matter.",
+   verdict:"Fate, on this evidence, is not denied — it is answered. What is yours is how you meet it: willingly, or dragged.",
+   arcs:{marcus:["m520","m449","m1016"], epictetus:["e8","e1","e9"], seneca:["s1079","s10711","s10712"]}},
+  {id:"anger", title:"Anger is useful", you:"Anger is useful. It gives me energy, it shows I care, and it makes people take me seriously.",
+   verdict:"Anger is not denied as a feeling — it is shown to be a bad master. The reply, in all three, is to take the opinion out of the injury.",
+   arcs:{marcus:["m21","m66","m847"], epictetus:["e20","e5","e28"], seneca:["s134","s135","s78"]}},
+  {id:"wealth", title:"Wealth makes you free", you:"Wealth makes you free. Once I have enough money, nobody can push me around and I can finally live as I like.",
+   verdict:"Freedom, on this evidence, is not bought. It is the state of wanting nothing that depends on someone else.",
+   arcs:{marcus:["m759","m516","m1016"], epictetus:["e14","e11","e13"], seneca:["s26","s167","s281"]}},
+  {id:"death", title:"Death is something to fear", you:"Death is something to fear. It ends everything, it could come at any time, and thinking about it only makes it worse.",
+   verdict:"Death is not made pleasant here. It is made ordinary — daily, certain, and therefore not a reason to postpone living well.",
+   arcs:{marcus:["m417","m47","m759"], epictetus:["e21","e5","e2"], seneca:["s24","s128","s129"]}},
+  {id:"opinions", title:"Other people\u2019s opinions should matter to me", you:"Other people\u2019s opinions should matter to me. Reputation is real — it decides work, friends, and how I am treated.",
+   verdict:"Other people will judge you. The question these writers press is whether their judgment gets to run your mind.",
+   arcs:{marcus:["m124","m43","m847"], epictetus:["e23","e28","e13"], seneca:["s78","s281","s167"]}},
+  {id:"time", title:"I have no time", you:"I have no time. The days are full, everything is urgent, and there is never enough left for what matters.",
+   verdict:"Time is the one thing that is actually yours — and the one most often given away unnoticed.",
+   arcs:{marcus:["m417","m516","m1016"], epictetus:["e1","e8","e21"], seneca:["s13","s12","s129"]}},
+  {id:"happiness", title:"Happiness depends on what happens to me", you:"Happiness depends on what happens to me. When things go well I am happy; when they go badly, I cannot be.",
+   verdict:"Happiness, on this evidence, is not the weather. It is what the mind does with the weather.",
+   arcs:{marcus:["m847","m520","m759"], epictetus:["e5","e9","e8"], seneca:["s134","s1079","s129"]}}
+];
+
+var STEP_LABELS = ["Opening move — what he actually wrote", "The counter — his reply to your claim", "Closing move — his last word on it"];
+var STEP_FRAMING = {
+  fate:["Framing: your claim is that the outcome is already decided. His opening does not argue about the outcome at all.","Framing: now he turns to the part that is still yours.","Framing: the closing move is a test, not a comfort."],
+  anger:["Framing: your claim is that anger works for you. His opening looks at who is actually being hurt.","Framing: now he names the mechanism — the opinion underneath the feeling.","Framing: the closing move asks whose hands your mind is in."],
+  wealth:["Framing: your claim is that money buys freedom. His opening looks inside first.","Framing: now he defines freedom, and it has nothing to do with a balance.","Framing: the closing move is about what you are willing to be thought of."],
+  death:["Framing: your claim is that death should be feared and avoided in thought. His opening does the opposite.","Framing: now he separates the event from the opinion about the event.","Framing: the closing move is where to look instead."],
+  opinions:["Framing: your claim is that reputation is real and must be managed. His opening agrees — and then turns the point.","Framing: now he asks what it costs to keep pleasing other people.","Framing: the closing move is the price of being thought well of."],
+  time:["Framing: your claim is that there is not enough time. His opening counts the time you do have.","Framing: now he names what time is — the only thing that is actually yours.","Framing: the closing move is about tomorrow, and whether you need to fear it."],
+  happiness:["Framing: your claim is that happiness follows events. His opening separates the event from your judgment of it.","Framing: now he shows the mind turning an obstacle into material.","Framing: the closing move is where the good is to be found."]
+};
+
+var chosenPhil = null, chosenClaim = null, revealed = 0, currentSteps = [];
+
+function el(id){ return document.getElementById(id); }
+function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function renderPhilosophers(){
+  el("philGrid").innerHTML = PHILOSOPHERS.map(function(p){
+    return '<button type="button" class="pick" data-phil="'+p.id+'" aria-pressed="false"><strong>'+esc(p.name)+'</strong> ('+esc(p.dates)+')<small>'+esc(p.bio)+'</small></button>';
+  }).join("");
+  Array.prototype.forEach.call(document.querySelectorAll("[data-phil]"), function(b){
+    b.addEventListener("click", function(){ choosePhil(b.getAttribute("data-phil")); });
+  });
+}
+function renderClaims(){
+  el("claimGrid").innerHTML = CLAIMS.map(function(c){
+    return '<button type="button" class="pick claim" data-claim="'+c.id+'"><strong>\u201C'+esc(c.title)+'\u201D</strong><small>Your position: '+esc(c.you)+'</small></button>';
+  }).join("");
+  Array.prototype.forEach.call(document.querySelectorAll("[data-claim]"), function(b){
+    b.addEventListener("click", function(){ chooseClaim(b.getAttribute("data-claim")); });
+  });
+}
+function choosePhil(id){
+  chosenPhil = id;
+  Array.prototype.forEach.call(document.querySelectorAll("[data-phil]"), function(b){
+    b.setAttribute("aria-pressed", b.getAttribute("data-phil")===id ? "true" : "false");
+  });
+  var p = PHILOSOPHERS.filter(function(x){ return x.id===id; })[0];
+  el("philChoice").innerHTML = "Chosen: <strong>"+esc(p.name)+"</strong> ("+esc(p.dates)+"). Now choose your claim below.";
+  el("step2").classList.remove("hidden");
+  el("step2").scrollIntoView({behavior:"smooth", block:"start"});
+}
+function chooseClaim(id){
+  chosenClaim = CLAIMS.filter(function(x){ return x.id===id; })[0];
+  var p = PHILOSOPHERS.filter(function(x){ return x.id===chosenPhil; })[0];
+  var qids = chosenClaim.arcs[chosenPhil];
+  currentSteps = qids.map(function(qid){ return QUOTES[chosenPhil][qid]; });
+  revealed = 0;
+  el("debateTitle").textContent = chosenClaim.title + " — debated with " + p.name;
+  el("debateIntro").innerHTML = "Your opponent: <strong>"+esc(p.name)+"</strong>. Your claim is below. His replies follow, one move at a time, in his own verified words.";
+  el("youSay").textContent = "\u201C" + chosenClaim.you + "\u201D";
+  el("steps").innerHTML = "";
+  el("verdict").classList.add("hidden");
+  el("nextBtn").disabled = false;
+  el("nextBtn").textContent = "Reveal the next move";
+  el("debate").classList.remove("hidden");
+  el("debate").scrollIntoView({behavior:"smooth", block:"start"});
+  revealNext();
+}
+function revealNext(){
+  if (revealed >= currentSteps.length){
+    el("verdictText").textContent = chosenClaim.verdict;
+    el("verdict").classList.remove("hidden");
+    el("nextBtn").disabled = true;
+    el("nextBtn").textContent = "Debate complete";
+    return;
+  }
+  var q = currentSteps[revealed];
+  var framing = (STEP_FRAMING[chosenClaim.id] && STEP_FRAMING[chosenClaim.id][revealed]) || "";
+  var div = document.createElement("div");
+  div.className = "step";
+  div.innerHTML = '<span class="label">'+esc(STEP_LABELS[revealed])+'</span>'
+    + (framing ? '<p class="framing">'+esc(framing)+'</p>' : '')
+    + '<blockquote>\u201C'+esc(q.text)+'\u201D</blockquote>'
+    + '<cite>'+esc(q.src)+'</cite>';
+  el("steps").appendChild(div);
+  revealed++;
+  if (revealed >= currentSteps.length){
+    el("verdictText").textContent = chosenClaim.verdict;
+    el("verdict").classList.remove("hidden");
+    el("nextBtn").disabled = true;
+    el("nextBtn").textContent = "Debate complete";
+  } else {
+    el("nextBtn").textContent = "Reveal the next move (" + (currentSteps.length - revealed) + " left)";
+  }
+  div.scrollIntoView({behavior:"smooth", block:"nearest"});
+}
+
+el("nextBtn").addEventListener("click", revealNext);
+el("restartBtn").addEventListener("click", function(){
+  chosenClaim = null; revealed = 0; currentSteps = [];
+  el("debate").classList.add("hidden");
+  el("step2").classList.add("hidden");
+  window.scrollTo({top:0, behavior:"smooth"});
+});
+el("printBtn").addEventListener("click", function(){ window.print(); });
+
+renderPhilosophers();
+renderClaims();
+</script>
+</body>
+</html>
