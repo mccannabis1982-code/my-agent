@@ -36,7 +36,7 @@
   #memList div { display: flex; justify-content: space-between; gap: 8px; padding: 4px 0; border-bottom: 1px solid #3a2f1d; }
   #memList button { background: none; border: none; color: #c96a5a; cursor: pointer; font-size: 15px; }
   #chat { flex: 1; overflow-y: auto; padding: 14px 16px; }
-  .msg { max-width: 88%; padding: 10px 12px; border-radius: 12px; margin-bottom: 10px; font-size: 16px; line-height: 1.5; white-space: pre-wrap; word-wrap: break-word; }
+  .msg { max-width: 88%; padding: 10px 12px; border-radius: 12px; margin-bottom: 10px; font-size: 16px; line-height: 1.5; white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word; word-break: break-word; }
   .user { background: #3a2f1d; margin-left: auto; }
   .agent { background: #26211a; border: 1px solid #4a4030; }
   .err { background: #4a1f1f; border: 1px solid #7a3333; }
@@ -46,7 +46,7 @@
   #tools { display: flex; gap: 6px; padding: 8px 16px 0; flex-wrap: wrap; }
   #tools button { background: #26211a; color: #f2ead8; border: 1px solid #4a4030; border-radius: 14px; padding: 5px 10px; font-size: 13px; cursor: pointer; }
   #composer { display: flex; gap: 8px; padding: 12px 16px; background: #26211a; border-top: 1px solid #4a4030; }
-  #composer input { flex: 1; padding: 11px; font-size: 16px; border-radius: 8px; border: 1px solid #4a4030; background: #1a1712; color: #f2ead8; }
+  #composer input { flex: 1; min-width: 0; width: 0; padding: 11px; font-size: 16px; border-radius: 8px; border: 1px solid #4a4030; background: #1a1712; color: #f2ead8; }
   #composer button { background: #ffd97a; color: #1a1712; border: none; border-radius: 8px; padding: 11px 14px; font-size: 16px; cursor: pointer; }
   #composer button.icon { background: #3a2f1d; color: #ffd97a; }
   #voiceStatus { padding: 6px 16px; font-size: 13px; color: #c9b98f; min-height: 18px; }
@@ -75,7 +75,6 @@
   .themeSwatches { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
   .themeSwatches button { border-radius: 20px; padding: 7px 13px; font-size: 14px; cursor: pointer; border: 1px solid var(--line); background: var(--panel2); color: var(--ink); }
   .themeSwatches button.on { border-color: var(--accent); font-weight: bold; }
-  pre.codeBox { background: #14100c; border: 1px solid var(--line); border-radius: 8px; padding: 10px; font-size: 12px; line-height: 1.5; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word; color: #e8e0c8; margin: 6px 0; }
 </style>
 </head>
 <body>
@@ -130,7 +129,7 @@
   <label>Gemini model
     <input type="text" id="geminiModel" value="gemini-3.5-flash-lite">
   </label>
-  <label class="avatarChoice"><input type="checkbox" id="liveSearchToggle" checked onchange="saveLiveSearch()"> Live search (Gemini) — use Google Search grounding for current facts</label>
+  <label class="avatarChoice"><input type="checkbox" id="liveSearchToggle" onchange="saveLiveSearch()"> Live search (Gemini) — use Google Search grounding for current facts</label>
   <div class="small" id="liveSearchNote">Live search grounding is a Gemini feature. It needs your Gemini key; without one, no live results are shown and nothing is made up.</div>
   <label>Groq key <span class="small">free tier, no card — get one at console.groq.com</span>
     <input type="password" id="groqKey" placeholder="Paste Groq API key">
@@ -215,13 +214,15 @@
   <button class="act" onclick="addMemory()">Remember this</button>
   <div id="memList"></div>
   <div class="small" style="margin-top:8px;">Everything here is saved only in this phone's browser. Keys never leave your phone except to the AI company you chose. Free-tier chats may be used by the provider to improve its models — never paste passwords, your SSN, or private account details.</div>
-  <div class="small" style="margin-top:10px;"><b>Install as an app:</b> Chrome → ⋮ → Add to Home screen. Then it opens full-screen like an app. Keep agent-manifest.json and the icons/ folder next to this file.</div>
-  <div style="margin-top:10px;"><b>Privacy policy:</b> <a id="privacyLink" href="https://example.com/privacy-policy.html" target="_blank" rel="noopener">Read the privacy policy</a></div>
+  <div class="small" style="margin-top:10px;"><b>Install as an app:</b> Install from the one-tap installer APK — download it, open it from Downloads, tap Install, and it opens full-screen like an app with its own icon. Keep agent-manifest.json and the icons/ folder next to this file.</div>
+  <div id="privacyLinkRow" style="margin-top:10px;"><b>Privacy policy:</b> <a id="privacyLink" href="#" target="_blank" rel="noopener">Read the privacy policy</a> <span class="small" id="privacyNotSet">(No privacy policy URL set yet — paste your hosted policy URL below.)</span></div>
   <label>Your hosted privacy policy URL
-    <input type="text" id="privacyUrlInput" placeholder="https://example.com/privacy-policy.html" oninput="savePrivacyUrl()">
+    <input type="text" id="privacyUrlInput" placeholder="Paste the URL of your hosted privacy policy" oninput="savePrivacyUrl()">
   </label>
   <div class="small" id="reportCount"></div>
   <div class="small">Google Play requires a privacy-policy link inside the app. If you publish this app, host your policy (a draft is ready in distribution/play-store/privacy-policy.html — for example on your GitHub Pages site) and paste its URL above. Flagged replies are stored only on this phone, never sent anywhere.</div>
+  <div style="margin-top:10px;"><b>Terms of use:</b> <span class="small">This app is provided as-is, with no warranty. You are responsible for the API keys you enter and for anything you ask the agent to do. The AI brains are run by their own providers (Google, Groq, OpenRouter, Pollinations, OVHcloud, Puter and Cloudflare) under their own terms and free-tier limits. Nothing here is professional advice. Check important facts yourself — the seller is not liable for the answers the agent gives.</span></div>
+  <div style="margin-top:10px;"><b>Support:</b> <a href="mailto:mccann.c808@gmail.com">mccann.c808@gmail.com</a></div>
   <button class="act" onclick="saveSettings()">Save settings</button>
   <button class="ghost" onclick="exportSettings()">Export my setup (no keys)</button>
 </details>
@@ -257,29 +258,32 @@
   <div class="small">Avatar, display name and theme are saved only in this browser.</div>
 </details>
 <details id="integrationsPanel">
-  <summary>Integrations — connect services with code</summary>
-  <div class="small" style="margin-top:6px;">This panel writes fetch code for legitimate public APIs that you authorise. The examples below need no key. If a service needs an API key, <b>you type that key in yourself</b> — keys are never stored in this file, and this agent never asks for your passwords.</div>
-  <div style="margin-top:10px;font-weight:bold;">1. Weather, no key — Open-Meteo forecast (your city)</div>
-  <pre class="codeBox" id="exWeather">fetch('https://api.open-meteo.com/v1/forecast?latitude=29.76&amp;longitude=-95.36&amp;current=temperature_2m,wind_speed_10m&amp;timezone=auto')
-  .then(function(r) { return r.json(); })
-  .then(function(d) { console.log('Now:', d.current.temperature_2m, 'C, wind', d.current.wind_speed_10m, 'km/h'); });</pre>
-  <button class="ghost" onclick="copyExample('exWeather')">Copy weather code</button>
-  <div style="margin-top:10px;font-weight:bold;">2. GitHub public repos, no key</div>
-  <pre class="codeBox" id="exGithub">fetch('https://api.github.com/users/octocat/repos?per_page=5')
-  .then(function(r) { return r.json(); })
-  .then(function(repos) { repos.forEach(function(r) { console.log(r.name, r.html_url); }); });</pre>
-  <button class="ghost" onclick="copyExample('exGithub')">Copy GitHub code</button>
-  <div style="margin-top:10px;font-weight:bold;">3. Practice data, no key — JSONPlaceholder post</div>
-  <pre class="codeBox" id="exJson">fetch('https://jsonplaceholder.typicode.com/posts/1')
-  .then(function(r) { return r.json(); })
-  .then(function(post) { console.log(post.title); });</pre>
-  <button class="ghost" onclick="copyExample('exJson')">Copy practice code</button>
+  <summary>Integrations — connect services</summary>
+  <div class="small" style="margin-top:6px;">This panel connects to free public services — no key needed for the three below. If a service needs a key, <b>you type that key in yourself</b> — keys are never stored in this file, and this agent never asks for your passwords.</div>
+  <div style="margin-top:10px;font-weight:bold;">1. Weather in Kingwood, no key</div>
+  <button class="act" onclick="runWeather()">Check the weather</button>
+  <div style="margin-top:10px;font-weight:bold;">2. Public GitHub repos, no key</div>
+  <button class="act" onclick="runRepos()">Show public repos</button>
+  <div style="margin-top:10px;font-weight:bold;">3. Practice post, no key</div>
+  <button class="act" onclick="runPractice()">Show practice post</button>
   <div style="margin-top:12px;font-weight:bold;">Draft my integration</div>
   <label>Name a service (e.g. OpenWeather, Notion, a news API)
     <input type="text" id="integrationService" placeholder="e.g. OpenWeather">
   </label>
   <button class="act" onclick="draftIntegration()">Draft my integration</button>
-  <div class="small">The connected brain writes the fetch code for you. Check the service's own docs and terms before using it, and only paste in keys you entered yourself.</div>
+  <div class="small">The brain explains in plain words what the service can do and what you need. Check the service's own docs and terms before using it, and only paste in keys you entered yourself.</div>
+</details>
+<details id="videoPanel">
+  <summary>🎬 Share a video</summary>
+  <div class="small" style="margin-top:6px;">Paste a YouTube link. Ask the current brain about it, or copy a ready message to send to your assistant.</div>
+  <label style="margin-top:8px;">YouTube link
+    <input type="url" id="videoUrlInput" placeholder="https://www.youtube.com/watch?v=...">
+  </label>
+  <div style="margin-top:8px;">
+    <button class="act" onclick="askVideo()">Ask about this video</button>
+    <button class="ghost" onclick="copyVideoMsg()">Copy message for your assistant</button>
+  </div>
+  <div id="videoList" style="margin-top:10px;"></div>
 </details>
 <div id="chat"></div>
 <div id="voiceStatus"></div>
@@ -290,7 +294,7 @@
   <button onclick="send()">Send</button>
 </div>
 <footer>
-  Honest limits: the brains live on Google's, Groq's, OpenRouter's, Pollinations', OVHcloud's, Puter's and Cloudflare's servers — answers need internet, the file itself works offline. Free tiers have daily limits (Cloudflare: 10,000 Neurons/day, resets 00:00 UTC, fails over cap and never bills). Pollinations and OVHcloud need no key at all: Pollinations is a best-effort lane — its anonymous limit is not published, expect 402s under load, and it may be retired without notice. OVHcloud allows about 2 requests/minute per model, so switching models raises throughput. Puter is optional, needs your own free Puter sign-in, and burns your own free monthly allowance (size unpublished — Puter may ask you to top up); it is never the default brain. This agent does not know your jobs, store, email or calendar unless Job mode is on. Voice answers come back in a phone voice, not yours. Install as an app: Chrome → ⋮ → Add to Home screen.
+  Honest limits: the brains live on Google's, Groq's, OpenRouter's, Pollinations', OVHcloud's, Puter's and Cloudflare's servers — answers need internet, the file itself works offline. Free tiers have daily limits (Cloudflare: 10,000 Neurons/day, resets 00:00 UTC, fails over cap and never bills). Pollinations and OVHcloud need no key at all: Pollinations is a best-effort lane — its anonymous limit is not published, expect 402s under load, and it may be retired without notice. OVHcloud allows about 2 requests/minute per model, so switching models raises throughput. Puter is optional, needs your own free Puter sign-in, and burns your own free monthly allowance (size unpublished — Puter may ask you to top up); it is never the default brain. This agent does not know your jobs, store, email or calendar unless Job mode is on. Voice answers come back in a phone voice, not yours. Install as an app: use the one-tap installer APK — download it, open it from Downloads, tap Install.
 </footer>
 <script>
 var chatHistory = [];
@@ -516,13 +520,32 @@ function puterSignIn() {
   } catch (e) { addMsg('Puter sign-in failed: ' + e.message, 'err'); }
   }).catch(function(e) { addMsg(e.message, 'err'); });
 }
-function copyExample(id) {
-  var el = document.getElementById(id);
-  if (!el) return;
-  var text = el.textContent;
-  var done = function() { addMsg('Copied. Paste it into your own page or ask the agent where to put it.', 'agent'); };
-  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function() { fallbackCopy(text); done(); });
-  else { fallbackCopy(text); done(); }
+function runWeather() {
+  addMsg('Checking the weather in Kingwood…', 'agent');
+  fetch('https://api.open-meteo.com/v1/forecast?latitude=29.76&longitude=-95.36&current=temperature_2m,wind_speed_10m&timezone=auto')
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      var c = d.current.temperature_2m, f = Math.round(c * 9 / 5 + 32);
+      addMsg('Right now in Kingwood it is ' + c + '°C (' + f + '°F), wind ' + d.current.wind_speed_10m + ' km/h.', 'agent');
+    })
+    .catch(function() { addMsg('I could not reach the weather service. Check your connection and try again.', 'err'); });
+}
+function runRepos() {
+  addMsg('Looking up public repos…', 'agent');
+  fetch('https://api.github.com/users/octocat/repos?per_page=5')
+    .then(function(r) { return r.json(); })
+    .then(function(repos) {
+      var names = repos.map(function(r) { return r.name; }).join(', ');
+      addMsg('Public repos for octocat: ' + names + '.', 'agent');
+    })
+    .catch(function() { addMsg('I could not reach GitHub. Check your connection and try again.', 'err'); });
+}
+function runPractice() {
+  addMsg('Loading the practice post…', 'agent');
+  fetch('https://jsonplaceholder.typicode.com/posts/1')
+    .then(function(r) { return r.json(); })
+    .then(function(post) { addMsg('Practice post: "' + post.title + '".', 'agent'); })
+    .catch(function() { addMsg('I could not reach the practice service. Check your connection and try again.', 'err'); });
 }
 function fallbackCopy(text) {
   var ta = document.createElement('textarea');
@@ -535,27 +558,29 @@ function draftIntegration() {
   var svc = (document.getElementById('integrationService').value || '').trim();
   if (!svc) { addMsg('Name a service first, then tap Draft my integration.', 'err'); return; }
   if (!availableBrains().length) { addMsg('Drafting needs a brain with a key. Add a key in Customize first.', 'err'); return; }
-  document.getElementById('input').value = 'Write JavaScript fetch code I can paste into this single-file agent app to connect to ' + svc + '. Use only public or no-key endpoints unless I provide a key myself. Show the full fetch code, explain where to paste it, and what I need to change. Do not invent an endpoint or a key — say if you are unsure of the exact URL.';
+  document.getElementById('input').value = 'Explain in plain words, with no code at all, how I can connect this agent to ' + svc + ': what the service can do for me, whether it needs an API key and exactly where I enter my own key, and the plain steps to set it up. Do not invent an endpoint or a key — say if you are unsure.';
   send();
 }
-var PRIVACY_POLICY_DEFAULT = 'https://example.com/privacy-policy.html';
+var PRIVACY_POLICY_DEFAULT = ''; // No fake URL: the buyer hosts their own policy and pastes the URL in Settings. Until then the link stays hidden.
 // Publisher: host the drafted policy (distribution/play-store/privacy-policy.html) and paste its URL in Settings, or replace this default.
 function privacyUrl() {
   try { return localStorage.getItem('agent_privacy_url') || PRIVACY_POLICY_DEFAULT; } catch (e) { return PRIVACY_POLICY_DEFAULT; }
 }
 function applyPrivacyUrl() {
+  var url = privacyUrl();
   var link = document.getElementById('privacyLink');
-  if (link) link.href = privacyUrl();
+  var note = document.getElementById('privacyNotSet');
+  if (link) { link.href = url || '#'; link.style.display = url ? '' : 'none'; }
+  if (note) note.style.display = url ? 'none' : '';
   var inp = document.getElementById('privacyUrlInput');
-  if (inp && !inp.value) inp.value = privacyUrl();
+  if (inp && !inp.value) inp.value = url;
 }
 function savePrivacyUrl() {
   var inp = document.getElementById('privacyUrlInput');
   if (!inp) return;
   var v = (inp.value || '').trim();
   try { localStorage.setItem('agent_privacy_url', v); } catch (e) {}
-  var link = document.getElementById('privacyLink');
-  if (link) link.href = v || PRIVACY_POLICY_DEFAULT;
+  applyPrivacyUrl();
 }
 function loadSettings() {
   document.getElementById('nameInput').value = ls('agent_name', "My Agent");
@@ -578,7 +603,7 @@ function loadSettings() {
   document.getElementById('styleSel').value = ls('agent_style', 'plain');
   document.getElementById('agentName').textContent = document.getElementById('nameInput').value;
   var lsT = document.getElementById('liveSearchToggle');
-  if (lsT) lsT.checked = localStorage.getItem('agent_live_search') !== '0';
+  if (lsT) lsT.checked = localStorage.getItem('agent_live_search') === '1';
   applyPrivacyUrl();
   updateReportCount();
   var dn0 = document.getElementById('displayNameInput');
@@ -587,8 +612,12 @@ function loadSettings() {
   applyAvatar();
   renderChips();
   renderMemory();
+  renderVideoList();
   loadVoices();
   updateReqCount();
+  // First-time buyer: if the saved/default brain needs a key this file does not
+  // have, fall back to a no-key brain so the first Send gets an answer, not an error.
+  if (availableBrains().indexOf(brain) === -1 && brain !== 'swarm' && brain !== 'debate') brain = availableBrains()[0] || 'pollinations';
   setBrain(brain, true);
 }
 function saveStyle() { localStorage.setItem('agent_style', document.getElementById('styleSel').value); }
@@ -624,6 +653,7 @@ function exportSettings() {
   var blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
   var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'agent-setup.json'; a.click();
 }
+var IDEA_BROWSER_PROMPT = "Go to ideabrowser.com and get today's free startup idea. Summarize it in plain words — what it is, who pays, how it makes money — and say in one line how it could fit a small one-person business.";
 function renderChips() {
   var wrap = document.getElementById('chips');
   wrap.innerHTML = '';
@@ -634,6 +664,50 @@ function renderChips() {
     b.onclick = function() { document.getElementById('input').value = c; send(); };
     wrap.appendChild(b);
   });
+  // Always-on chip: today's free startup idea from ideabrowser.com.
+  var ib = document.createElement('button');
+  ib.id = 'ideaChip';
+  ib.textContent = '💡 Today\'s startup idea';
+  ib.onclick = function() { document.getElementById('input').value = IDEA_BROWSER_PROMPT; send(); };
+  wrap.appendChild(ib);
+}
+// --- Share a video (YouTube) ---
+var VIDEO_LS_KEY = 'agent_videos';
+function isYouTubeUrl(u) {
+  try { var a = document.createElement('a'); a.href = u; return /(^|\.)youtube\.com$/.test(a.hostname) || a.hostname === 'youtu.be'; } catch (e) { return false; }
+}
+function getVideoLinks() { try { return JSON.parse(localStorage.getItem(VIDEO_LS_KEY) || '[]'); } catch (e) { return []; } }
+function saveVideoLinks(list) { localStorage.setItem(VIDEO_LS_KEY, JSON.stringify(list.slice(0, 10))); }
+function renderVideoList() {
+  var wrap = document.getElementById('videoList');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  getVideoLinks().forEach(function(u) {
+    var d = document.createElement('div');
+    var s = document.createElement('span'); s.textContent = u;
+    var b = document.createElement('button'); b.textContent = '✕';
+    b.onclick = function() { saveVideoLinks(getVideoLinks().filter(function(x) { return x !== u; })); renderVideoList(); };
+    d.appendChild(s); d.appendChild(b); wrap.appendChild(d);
+  });
+}
+function saveVideoUrl(u) {
+  var list = getVideoLinks();
+  if (list.indexOf(u) === -1) { list.unshift(u); saveVideoLinks(list); }
+  renderVideoList();
+}
+function askVideo() {
+  var u = (document.getElementById('videoUrlInput').value || '').trim();
+  if (!isYouTubeUrl(u)) { addMsg('That does not look like a YouTube link. Paste the full youtube.com or youtu.be link and try again.', 'err'); return; }
+  saveVideoUrl(u);
+  document.getElementById('input').value = 'Here is a YouTube video: ' + u + ' — please watch what it is about and summarize it in plain words: what it is, the main points, and anything useful in it.';
+  send();
+}
+function copyVideoMsg() {
+  var u = (document.getElementById('videoUrlInput').value || '').trim();
+  if (!isYouTubeUrl(u)) { addMsg('That does not look like a YouTube link. Paste the full youtube.com or youtu.be link and try again.', 'err'); return; }
+  saveVideoUrl(u);
+  fallbackCopy('Can you check this YouTube video for me? ' + u);
+  addMsg('Copied — paste it in your chat with your assistant.', 'agent');
 }
 function renderMemory() {
   var wrap = document.getElementById('memList');
@@ -1090,15 +1164,26 @@ function restartListeningSoon(ms) {
   }, ms);
 }
 function showMicBlocked() {
+  if (window.AndroidSpeech) {
+    setVoiceStatus(driving ? 'Driving mode paused — mic is blocked. Tap 🎤 to retry, or type instead.' : 'Mic blocked — tap 🎤 to retry, or type instead.');
+    if (micBlockedShown) return;
+    micBlockedShown = true;
+    addMsg('Mic blocked — I can\'t hear you. To allow it in this app: open your phone Settings → Apps → My Agent → Permissions → Microphone → Allow. Then tap 🎤 to try again. Typing works too.', 'err');
+    return;
+  }
   // Plain words, one bubble only, and the next tap named.
   setVoiceStatus(driving ? 'Driving mode paused — mic is blocked. Tap 🎤 to retry, or type instead.' : 'Mic blocked — tap 🎤 to retry, or type instead.');
   if (micBlockedShown) return;
   micBlockedShown = true;
-  addMsg('Mic blocked — I can\'t hear you. In your phone settings, allow the microphone for Chrome, then tap 🎤 to try again. Typing works too.', 'err');
+  addMsg('Mic blocked — I can\'t hear you. To allow it in Chrome: tap the tune or lock icon in the address bar, tap Site settings, tap Microphone, then choose Allow. (Or open your phone Settings → Apps → Chrome → Permissions → Microphone → Allow.) Then tap 🎤 to try again. Typing works too.', 'err');
 }
 function stopVoiceInput() {
   // Stop whichever input is live — recognition OR recording — and leave neither running.
   if (listening && recog) { try { recog.stop(); } catch (e) {} }
+  if (androidListening && window.AndroidSpeech && window.AndroidSpeech.stopListening) {
+    try { window.AndroidSpeech.stopListening(); } catch (e) {}
+    androidListening = false;
+  }
   listening = false;
   if (listenWatchdog) { clearTimeout(listenWatchdog); listenWatchdog = null; }
   if (recording) stopRecording();
@@ -1145,10 +1230,66 @@ function toggleMic() {
   }
   startListening();
 }
+// --- AndroidSpeech bridge (installed app only) ---
+// The installed app has no window.SpeechRecognition, so the app itself
+// listens through the phone's built-in recognizer and calls back here.
+// Callback kinds: "partial", "final", "no-speech", "not-allowed",
+// "not-available", "service-not-allowed", "error".
+var androidListening = false;
+window.__androidSpeechResult = function(text, kind) {
+  var inp = document.getElementById('input');
+  if (kind === 'partial') { if (text) inp.value = text; armListenWatchdog(); return; }
+  androidListening = false;
+  listening = false;
+  if (listenWatchdog) { clearTimeout(listenWatchdog); listenWatchdog = null; }
+  document.getElementById('micBtn').textContent = '🎤';
+  if (kind === 'final') {
+    micBlockedShown = false;
+    if (!text) {
+      setVoiceStatus('I didn\'t hear anything — tap 🎤 to try again, or type instead.');
+      if (driving) restartListeningSoon(600);
+      return;
+    }
+    inp.value = text;
+    setVoiceStatus(driving ? 'Driving mode on — listening again…' : '');
+    send();
+    if (driving) restartListeningSoon(600);
+    return;
+  }
+  if (kind === 'no-speech') {
+    if (driving) restartListeningSoon(600);
+    else setVoiceStatus('I didn\'t hear anything — tap 🎤 to try again, or type instead.');
+    return;
+  }
+  if (kind === 'not-allowed') { showMicBlocked(); return; }
+  if (kind === 'not-available' || kind === 'service-not-allowed' || kind === 'error') {
+    if (getKeys().gemini) {
+      setVoiceStatus('Built-in voice was blocked — recording instead. Tap stop when done.');
+      startRecording();
+    } else {
+      addMsg('The built-in voice did not work and there is no Gemini key in this file, so I cannot record and transcribe instead. Type it instead — or add your free Gemini key in Settings.', 'err');
+      setVoiceStatus('');
+    }
+    return;
+  }
+};
 function startListening() {
   if (listening || recording || speaking || micStarting) return; // one input at a time, never while talking
+  // Installed app first: the WebView has no SpeechRecognition, so use the
+  // phone's built-in recognizer through the app's AndroidSpeech bridge.
+  if (window.AndroidSpeech && window.AndroidSpeech.startListening) {
+    try {
+      window.AndroidSpeech.startListening('__androidSpeechResult');
+      androidListening = true;
+      listening = true;
+      armListenWatchdog();
+      document.getElementById('micBtn').textContent = '🛑';
+      setVoiceStatus('Listening… speak now.');
+      return;
+    } catch (e) { androidListening = false; /* fall through to the next path */ }
+  }
   var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) { startRecording(); return; }
+  if (!SR) { if (getKeys().gemini) { startRecording(); return; } addMsg('This browser has no built-in voice recognition and there is no Gemini key in this file, so I cannot turn speech into text. Type it instead — or add your free Gemini key in Settings.', 'err'); setVoiceStatus(''); return; }
   if (recog) { try { recog.abort(); } catch (e) {} } // never leave a stale recognizer running
   try {
     recog = new SR();
@@ -1156,6 +1297,7 @@ function startListening() {
     recog.interimResults = true;
     recog.continuous = false;
     var inp = document.getElementById('input');
+    var heardFinal = false; // set when a final transcript arrives; onend uses it to say so plainly
     recog.onstart = function() { micBlockedShown = false; }; // mic genuinely works — a later block may warn again
     recog.onresult = function(e) {
       armListenWatchdog(); // speech is flowing — don't time out mid-sentence
@@ -1164,14 +1306,15 @@ function startListening() {
         if (e.results[i].isFinal) finalT += e.results[i][0].transcript;
         else interim += e.results[i][0].transcript;
       }
-      if (finalT) { inp.value = finalT; send(); }
+      if (finalT) { heardFinal = true; inp.value = finalT; send(); }
       else inp.value = interim;
     };
     recog.onend = function() {
       listening = false;
       if (listenWatchdog) { clearTimeout(listenWatchdog); listenWatchdog = null; }
       document.getElementById('micBtn').textContent = '🎤';
-      setVoiceStatus(driving ? 'Driving mode on — listening again…' : '');
+      if (!heardFinal && !driving) setVoiceStatus('I didn\'t hear anything — tap 🎤 to try again, or type instead.');
+      else setVoiceStatus(driving ? 'Driving mode on — listening again…' : '');
       if (driving) restartListeningSoon(600);
     };
     recog.onerror = function(e) {
@@ -1180,10 +1323,13 @@ function startListening() {
       document.getElementById('micBtn').textContent = '🎤';
       if (e.error === 'aborted' || e.error === 'no-speech') {
         if (driving) restartListeningSoon(600);
+        else if (e.error === 'no-speech') setVoiceStatus('I didn\'t hear anything — tap 🎤 to try again, or type instead.');
         else setVoiceStatus('');
         return;
       }
+      if (e.error === 'not-allowed' || e.error === 'service-not-allowed') { showMicBlocked(); return; } // permission denied — say so plainly, never record without a key
       if (recording || micStarting) return; // already on the fallback — don't start it twice
+      if (!getKeys().gemini) { addMsg('The built-in voice did not work and there is no Gemini key in this file, so I cannot record and transcribe instead. Type it instead — or add your free Gemini key in Settings.', 'err'); setVoiceStatus(''); return; }
       setVoiceStatus('Built-in voice was blocked — recording instead. Tap stop when done.');
       startRecording();
     };
@@ -1192,10 +1338,11 @@ function startListening() {
     armListenWatchdog();
     document.getElementById('micBtn').textContent = '🛑';
     setVoiceStatus('Listening… speak now.');
-  } catch (e) { if (!recording && !micStarting) startRecording(); }
+  } catch (e) { if (!recording && !micStarting) { if (getKeys().gemini) startRecording(); else showMicBlocked(); } }
 }
 async function startRecording() {
   if (recording || micStarting) return;
+  if (!getKeys().gemini) { addMsg('No Gemini key in this file, so I cannot turn a recording into text. Type it instead — or add your free Gemini key in Settings.', 'err'); setVoiceStatus(''); return; } // never record audio we cannot transcribe
   if (listening && recog) { try { recog.stop(); } catch (e) {} listening = false; } // never record while recognition runs
   micStarting = true;
   // Watchdog: if the permission box is left unanswered, getUserMedia never
